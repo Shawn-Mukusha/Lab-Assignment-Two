@@ -1,0 +1,7 @@
+java ComposedStack 
+Pop: 2
+Peek: 1
+Pop: 1
+Empty? true
+Extending ArrayList exposes add(index, value), set and remove(index),
+allowing changes in the middle and breaking last-in, first-out discipline.

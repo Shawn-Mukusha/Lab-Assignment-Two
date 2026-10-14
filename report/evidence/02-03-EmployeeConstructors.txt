@@ -1,0 +1,6 @@
+java EmployeeConstructors 
+1000: Unknown ($0.00)
+1001: Ada ($0.00)
+1002: Tendai ($1200.00)
+1003: Tendai ($1200.00)
+Same object? false

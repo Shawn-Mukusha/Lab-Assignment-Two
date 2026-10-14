@@ -1,0 +1,4 @@
+java SafeArrayAccess 
+Element at 1: 20
+Index -1 is outside 0 to 2
+Index 3 is outside 0 to 2

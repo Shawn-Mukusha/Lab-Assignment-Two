@@ -1,0 +1,8 @@
+java LibraryApp C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\library-menu
+[standard input]
+0
+[program output]
+Loaded 2 items, 1 members, 0 active loans.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Library saved.

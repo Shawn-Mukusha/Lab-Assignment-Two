@@ -1,0 +1,8 @@
+java PaymentProcessing 
+Pattern matching:
+Card ending 1234 processed
+EcoCash payment processed
+Polymorphism:
+Card ending 1234 processed
+EcoCash payment processed
+A new payment type needs a new branch in pay; process dispatch needs no branch change.

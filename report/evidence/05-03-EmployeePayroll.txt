@@ -1,0 +1,7 @@
+java EmployeePayroll 
+Kudzai earns 2000.00
+Nyasha earns 4300.00
+Tatenda earns 3250.00
+Rudo earns 600.00
+Total payroll: 10150.00
+Adding Intern changes the array, not the payroll loop.

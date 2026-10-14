@@ -1,0 +1,28 @@
+java LibraryTests C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\library-tests
+PASS: Books and DVDs use different loan periods
+PASS: Blank item id rejected
+PASS: Invalid DVD duration rejected
+PASS: Duplicate item id rejected
+PASS: Duplicate member id rejected
+PASS: Unknown member rejected
+PASS: Unknown item rejected
+PASS: Borrow updates item and member
+PASS: Book due date is 14 days later
+PASS: Unavailable item rejected
+PASS: Fourth loan rejected
+PASS: Failed borrow leaves state unchanged
+PASS: Return releases item and member slot
+PASS: Returning an available item rejected
+PASS: Due today is not overdue
+PASS: Past-due loan found
+PASS: Stream search ignores case
+PASS: Item snapshot cannot be modified
+PASS: Member loans cannot be externally modified
+PASS: Items, members and active loans restored
+PASS: CSV quotes, commas and UTF-8 preserved
+PASS: Original due date preserved after reload
+PASS: Returned loan stays returned after reload
+PASS: CSV codec round trip
+PASS: Orphaned persisted loan rejected
+PASS: Load failure does not overwrite saved data
+ALL 26 LIBRARY CHECKS PASSED

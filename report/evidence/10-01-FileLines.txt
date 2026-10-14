@@ -1,0 +1,14 @@
+java FileLines C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\five-lines.txt
+[standard input]
+one
+two
+three
+four
+five
+[program output]
+Line 1: Line 2: Line 3: Line 4: Line 5: Read back from C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\five-lines.txt:
+one
+two
+three
+four
+five

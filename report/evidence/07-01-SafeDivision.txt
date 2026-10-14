@@ -1,0 +1,5 @@
+java SafeDivision 
+[standard input]
+8 2
+[program output]
+Enter two integers: Result: 4

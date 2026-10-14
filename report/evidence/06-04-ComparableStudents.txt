@@ -1,0 +1,3 @@
+java ComparableStudents 
+By name: [Student[name=Ada, marks=90], Student[name=Ben, marks=70], Student[name=Zoe, marks=80]]
+By marks ascending: [Student[name=Ben, marks=70], Student[name=Zoe, marks=80], Student[name=Ada, marks=90]]

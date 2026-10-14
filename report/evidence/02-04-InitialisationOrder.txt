@@ -1,0 +1,12 @@
+java InitialisationOrder 
+Prediction: static 1, static 2, instance 1, instance 2, constructor,
+then instance 1, instance 2, constructor for the second object.
+--- actual output ---
+static block 1
+static block 2
+instance block 1
+instance block 2
+constructor
+instance block 1
+instance block 2
+constructor

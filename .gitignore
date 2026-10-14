@@ -1,0 +1,5 @@
+.build/
+11/data/
+*.class
+10/exercise1.txt
+10/report-*.txt

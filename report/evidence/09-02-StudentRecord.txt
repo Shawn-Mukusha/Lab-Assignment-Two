@@ -1,0 +1,6 @@
+java StudentRecord 
+Student[name=Rudo, age=20]
+Equal values? true
+Same object? false
+Name component: Rudo
+Age component: 20

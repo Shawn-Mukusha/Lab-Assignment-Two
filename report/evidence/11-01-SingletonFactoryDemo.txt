@@ -1,0 +1,4 @@
+java SingletonFactoryDemo 
+Same instance? true -> Example University
+Email: Lab 11 is open
+SMS: Lab 11 is open

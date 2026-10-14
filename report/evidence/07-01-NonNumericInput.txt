@@ -1,0 +1,5 @@
+java SafeDivision 
+[standard input]
+hello 2
+[program output]
+Enter two integers: Input must contain two valid integers.

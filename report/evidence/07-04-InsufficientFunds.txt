@@ -1,0 +1,5 @@
+java InsufficientFunds 
+ACC-001 [Tendai] balance: 55.00
+Withdrawal rejected: Requested 70.00, but only 55.00 is available
+Balance after rejected withdrawal: 55.0
+A checked exception forces handling and carries details; a boolean is simpler for routine failure.

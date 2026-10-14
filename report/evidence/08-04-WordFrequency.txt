@@ -1,0 +1,9 @@
+java WordFrequency 
+[standard input]
+Java is fun. Java is useful!
+[program output]
+Enter a paragraph on one line:
+is: 2
+java: 2
+fun: 1
+useful: 1

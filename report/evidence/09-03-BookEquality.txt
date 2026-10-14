@@ -1,0 +1,7 @@
+java BookEquality 
+First added? true
+Duplicate added? false
+Equal? true
+Equal hashes? true
+Books stored: 1
+Java [ISBN 978-0000000001]

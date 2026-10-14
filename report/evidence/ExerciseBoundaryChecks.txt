@@ -1,0 +1,39 @@
+java ExerciseChecks 
+PASS: Exactly 25 years is not antique
+PASS: 26 years is antique
+PASS: Rectangle area and perimeter
+PASS: Default circle radius is one
+PASS: Negative circle radius rejected
+PASS: Constructor chaining counts each circle once
+PASS: Negative marks rejected
+PASS: Marks above 100 rejected
+PASS: Invalid marks do not change student state
+PASS: Grade boundary 49
+PASS: Grade boundary 50
+PASS: Grade boundary 59
+PASS: Grade boundary 60
+PASS: Grade boundary 74
+PASS: Grade boundary 75
+PASS: Grade boundary 100
+PASS: History is a detached snapshot
+PASS: History is unmodifiable
+PASS: Overdraw leaves bank balance unchanged
+PASS: ImmutablePerson class is final
+PASS: ImmutablePerson fields are private and final
+PASS: ImmutablePerson has no setters
+PASS: Kelvin storage preserves Fahrenheit conversion
+PASS: Below absolute zero rejected
+PASS: Age endpoints 0 and 120 are valid
+PASS: Age 121 rejected with checked exception
+PASS: Insufficient funds throws checked exception
+PASS: Failed checked withdrawal preserves balance
+PASS: Generic stack follows LIFO
+PASS: Empty generic stack rejects peek
+PASS: Word frequency handles case and punctuation
+PASS: Generic sort handles negatives and duplicates
+PASS: Generic sort accepts empty array
+PASS: Empty linked-list iterator rejects next
+PASS: Linked-list iterator detects structural modification
+PASS: Coin change is minimal and totals correctly for every amount 0-200
+PASS: Negative coin amount rejected
+ALL 37 EXERCISE CHECKS PASSED

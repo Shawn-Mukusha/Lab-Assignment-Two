@@ -1,0 +1,5 @@
+java SafeDivision 
+[standard input]
+8 0
+[program output]
+Enter two integers: Cannot divide by zero.

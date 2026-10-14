@@ -1,0 +1,5 @@
+java VehicleInheritance 
+Prediction: Vehicle -> Car -> ElectricCar
+Vehicle constructor
+Car constructor
+ElectricCar constructor

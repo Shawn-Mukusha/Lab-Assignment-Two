@@ -1,0 +1,5 @@
+java FileStatistics C:\Users\HP15\Desktop\Lab\10\sample.txt
+File: C:\Users\HP15\Desktop\Lab\10\sample.txt
+Lines: 2
+Words: 9
+Characters (including line endings): 62

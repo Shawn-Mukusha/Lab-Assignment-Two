@@ -1,0 +1,6 @@
+java PersonTeacher 
+Rudo, age 20
+Mr Moyo, age 40
+Course: Computer Science
+Subject: Java
+Both subclasses use the single display() implementation in Person.

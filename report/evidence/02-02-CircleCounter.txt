@@ -1,0 +1,6 @@
+java CircleCounter 
+Before construction: 0
+Radius: 1.0
+Radius: 2.0
+Radius: 3.0
+Circles created: 3

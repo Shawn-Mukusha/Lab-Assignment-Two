@@ -1,0 +1,4 @@
+java CustomLinkedList 
+First
+Second
+Exhausted iterator correctly rejects next().

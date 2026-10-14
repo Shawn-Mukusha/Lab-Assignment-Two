@@ -1,0 +1,5 @@
+java FileLines C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\short.txt
+[standard input]
+only one
+[program output]
+Line 1: Line 2: Input ended; five lines are required. No file written.

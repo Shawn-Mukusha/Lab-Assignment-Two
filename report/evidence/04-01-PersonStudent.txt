@@ -1,0 +1,4 @@
+java PersonStudent 
+Farai, age 35
+Tariro, age 20
+Student course: Object-Oriented Programming

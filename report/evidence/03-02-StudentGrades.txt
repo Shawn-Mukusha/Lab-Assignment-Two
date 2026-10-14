@@ -1,0 +1,9 @@
+java StudentGrades 
+Rudo: 0 -> F
+Rudo: 49 -> F
+Rudo: 50 -> C
+Rudo: 59 -> C
+Rudo: 60 -> B
+Rudo: 74 -> B
+Rudo: 75 -> A
+Rudo: 100 -> A

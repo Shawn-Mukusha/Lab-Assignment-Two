@@ -1,0 +1,4 @@
+java FinallyReturn 
+Prediction: the finally message appears first, followed by returned: 1.
+finally executes before return
+returned: 1

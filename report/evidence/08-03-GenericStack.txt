@@ -1,0 +1,7 @@
+java GenericStack 
+Peek: Second
+Pop: Second
+Pop: First
+Empty? true
+Cannot pop an empty stack.
+Integer stack: 42

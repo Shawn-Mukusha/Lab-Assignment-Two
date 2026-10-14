@@ -1,0 +1,4 @@
+java PersonAddress 
+Rudo lives in Harare
+NullPointerException: address does not refer to an object.
+Tariro has no address recorded.

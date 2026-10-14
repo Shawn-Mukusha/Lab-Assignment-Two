@@ -1,0 +1,4 @@
+java GenericBubbleSort 
+[1, 1, 2, 3]
+[Apple, Mango, Zebra]
+int[] cannot bind to T[]: generics require reference types; use Integer[].

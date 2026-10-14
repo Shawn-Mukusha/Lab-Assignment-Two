@@ -1,0 +1,2140 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Java OOP Lab Report</title>
+<style>body{font:16px/1.6 system-ui,sans-serif;color:#172033;background:#f1f5f9;margin:0}main{max-width:1100px;margin:32px auto;background:white;padding:40px;border-radius:16px}h1{font-size:36px;line-height:1.2}h2{border-bottom:2px solid #e2e8f0;padding-bottom:8px;margin-top:40px}summary{cursor:pointer;font-weight:650;padding:12px;background:#eff6ff;border-radius:8px}details{margin:18px 0;border:1px solid #dbeafe;padding:8px;border-radius:10px}details>div{padding:14px}img{width:100%;height:auto;border-radius:8px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:16px;font:13px/1.6 monospace}a{color:#175ac5}small{color:#475569}.status{padding:14px;background:#dcfce7;border-radius:10px}nav a{margin-right:14px}table{border-collapse:collapse;width:100%}th,td{padding:8px;text-align:left;border-bottom:1px solid #e2e8f0}@media print{body{background:white}main{margin:0;padding:0}details{break-inside:avoid}summary{background:white}nav{display:none}}</style></head><body><main>
+<h1>Object-Oriented Programming in Java</h1><p>Lab report: Labs 1â€“10, design pattern demonstrations, and the Library Management System mini-project.</p>
+<p class="status">Verification passed: all 50 exercises ran successfully, Java 17 compilation passed, and boundary, error-handling and library persistence checks passed.</p>
+<p>All outputs below come from actual Java executions. Images are rendered console-output captures, not desktop screenshots. Source code is linked for each exercise and includes explanations.</p>
+<nav><a href='#lab1'>Lab 1</a> <a href='#lab2'>Lab 2</a> <a href='#lab3'>Lab 3</a> <a href='#lab4'>Lab 4</a> <a href='#lab5'>Lab 5</a> <a href='#lab6'>Lab 6</a> <a href='#lab7'>Lab 7</a> <a href='#lab8'>Lab 8</a> <a href='#lab9'>Lab 9</a> <a href='#lab10'>Lab 10</a> <a href='#lab11'>Lab 11</a></nav>
+<h2 id='lab1'>Lab 1</h2>
+<details open><summary>Exercise 1: CarBasics</summary><div><p><b>Objective:</b> Create and display three independent car objects.</p><p><a href='../1/CarBasics.java'>Java source</a> Â· <a href='evidence/01-01-CarBasics.txt'>Execution transcript</a></p>
+<img src='evidence/01-01-CarBasics.png' alt='Recorded output of CarBasics' loading='lazy'>
+<p><b>Conclusion:</b> Objects carry their own state and behaviour.</p><details><summary>Source code</summary><pre>/** Lab 1, Exercise 1: state and behaviour belong to each Car object. */
+public class CarBasics {
+    static class Car {
+        String brand;
+        int year;
+        double mileage;
+
+        Car(String brand, int year, double mileage) {
+            this.brand = brand;
+            this.year = year;
+            this.mileage = mileage;
+        }
+
+        void display() {
+            System.out.printf(&quot;%s (%d), %.1f km%n&quot;, brand, year, mileage);
+        }
+    }
+
+    public static void main(String[] args) {
+        // EXPLAIN: each new expression creates a separate object.
+        Car[] cars = {
+            new Car(&quot;Toyota&quot;, 2020, 42_000),
+            new Car(&quot;Honda&quot;, 2018, 61_000),
+            new Car(&quot;Mazda&quot;, 2022, 18_000)
+        };
+        for (Car car : cars) {
+            car.display();
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: CarAntique</summary><div><p><b>Objective:</b> Identify cars older than 25 years.</p><p><a href='../1/CarAntique.java'>Java source</a> Â· <a href='evidence/01-02-CarAntique.txt'>Execution transcript</a></p>
+<img src='evidence/01-02-CarAntique.png' alt='Recorded output of CarAntique' loading='lazy'>
+<p><b>Conclusion:</b> The strict greater-than comparison excludes a car exactly 25 years old.</p><details><summary>Source code</summary><pre>import java.time.Year;
+
+/** Lab 1, Exercise 2: determine whether a car is more than 25 years old. */
+public class CarAntique {
+    static class Car {
+        String brand;
+        int year;
+        double mileage;
+
+        Car(String brand, int year, double mileage) {
+            this.brand = brand;
+            this.year = year;
+            this.mileage = mileage;
+        }
+
+        void display() {
+            System.out.printf(&quot;%s (%d), %.1f km%n&quot;, brand, year, mileage);
+        }
+
+        boolean isAntique() {
+            // EXPLAIN: exactly 25 years old does not satisfy &quot;more than 25&quot;.
+            return Year.now().getValue() - year &gt; 25;
+        }
+    }
+
+    public static void main(String[] args) {
+        int currentYear = Year.now().getValue();
+        Car[] cars = {
+            new Car(&quot;Ford&quot;, currentYear - 26, 140_000),
+            new Car(&quot;Toyota&quot;, currentYear - 25, 90_000),
+            new Car(&quot;Mazda&quot;, currentYear - 5, 18_000)
+        };
+        for (Car car : cars) {
+            car.display();
+            System.out.println(&quot;Antique? &quot; + car.isAntique());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: LargestRectangle</summary><div><p><b>Objective:</b> Find the greatest area among five rectangles.</p><p><a href='../1/LargestRectangle.java'>Java source</a> Â· <a href='evidence/01-03-LargestRectangle.txt'>Execution transcript</a></p>
+<img src='evidence/01-03-LargestRectangle.png' alt='Recorded output of LargestRectangle' loading='lazy'>
+<p><b>Conclusion:</b> Comparing calculated areas identifies the 6 by 6 rectangle.</p><details><summary>Source code</summary><pre>/** Lab 1, Exercise 3: compare the areas of five Rectangle objects. */
+public class LargestRectangle {
+    static class Rectangle {
+        double width;
+        double height;
+
+        Rectangle(double width, double height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        double area() {
+            return width * height;
+        }
+
+        double perimeter() {
+            return 2 * (width + height);
+        }
+
+        @Override
+        public String toString() {
+            return String.format(&quot;%.1f x %.1f, area=%.1f, perimeter=%.1f&quot;,
+                    width, height, area(), perimeter());
+        }
+    }
+
+    public static void main(String[] args) {
+        Rectangle[] rectangles = {
+            new Rectangle(2, 4), new Rectangle(5, 3), new Rectangle(6, 6),
+            new Rectangle(8, 2), new Rectangle(4, 4)
+        };
+        Rectangle largest = rectangles[0];
+        for (Rectangle rectangle : rectangles) {
+            if (rectangle.area() &gt; largest.area()) {
+                largest = rectangle;
+            }
+        }
+        System.out.println(&quot;Largest rectangle: &quot; + largest);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: RectangleAliasing</summary><div><p><b>Objective:</b> Predict and verify reference aliasing.</p><p><a href='../1/RectangleAliasing.java'>Java source</a> Â· <a href='evidence/01-04-RectangleAliasing.txt'>Execution transcript</a></p>
+<img src='evidence/01-04-RectangleAliasing.png' alt='Recorded output of RectangleAliasing' loading='lazy'>
+<p><b>Conclusion:</b> Changing r2.width also changes r1.width because both references identify one object.</p><details><summary>Source code</summary><pre>/** Lab 1, Exercise 4: assigning a reference creates an alias. */
+public class RectangleAliasing {
+    static class Rectangle {
+        double width;
+        double height;
+
+        Rectangle(double width, double height) {
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Prediction: r1.width will be 9.0.&quot;);
+        Rectangle r1 = new Rectangle(4, 5);
+        Rectangle r2 = r1;
+        // EXPLAIN: both variables point to the same object on the heap.
+        r2.width = 9;
+        System.out.println(&quot;r1.width = &quot; + r1.width);
+        System.out.println(&quot;Same object? &quot; + (r1 == r2));
+        System.out.println(&quot;Changing the object through r2 is visible through r1.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: PersonAddress</summary><div><p><b>Objective:</b> Demonstrate composition, chained access and null.</p><p><a href='../1/PersonAddress.java'>Java source</a> Â· <a href='evidence/01-05-PersonAddress.txt'>Execution transcript</a></p>
+<img src='evidence/01-05-PersonAddress.png' alt='Recorded output of PersonAddress' loading='lazy'>
+<p><b>Conclusion:</b> A chained expression requires every intermediate reference to be non-null.</p><details><summary>Source code</summary><pre>/** Lab 1, Exercise 5: composition, chained access and null. */
+public class PersonAddress {
+    static class Address {
+        String city;
+
+        Address(String city) {
+            this.city = city;
+        }
+    }
+
+    static class Person {
+        String name;
+        Address address;
+
+        Person(String name, Address address) {
+            this.name = name;
+            this.address = address;
+        }
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person(&quot;Rudo&quot;, new Address(&quot;Harare&quot;));
+        // EXPLAIN: person -&gt; address object -&gt; city field.
+        System.out.println(person.name + &quot; lives in &quot; + person.address.city);
+
+        Person noAddress = new Person(&quot;Tariro&quot;, null);
+        try {
+            // Deliberately demonstrate the failure requested by the exercise.
+            System.out.println(noAddress.address.city);
+        } catch (NullPointerException exception) {
+            System.out.println(&quot;NullPointerException: address does not refer to an object.&quot;);
+        }
+        // EXPLAIN: guard a nullable reference before using it in normal code.
+        if (noAddress.address == null) {
+            System.out.println(noAddress.name + &quot; has no address recorded.&quot;);
+        }
+    }
+}
+</pre></details></div></details>
+<h2 id='lab2'>Lab 2</h2>
+<details open><summary>Exercise 1: CircleConstructors</summary><div><p><b>Objective:</b> Use overloaded constructors with a default radius.</p><p><a href='../2/CircleConstructors.java'>Java source</a> Â· <a href='evidence/02-01-CircleConstructors.txt'>Execution transcript</a></p>
+<img src='evidence/02-01-CircleConstructors.png' alt='Recorded output of CircleConstructors' loading='lazy'>
+<p><b>Conclusion:</b> The no-argument constructor delegates to the radius constructor.</p><details><summary>Source code</summary><pre>/** Lab 2, Exercise 1: overloaded constructors and this(...). */
+public class CircleConstructors {
+    static class Circle {
+        private final double radius;
+
+        Circle() {
+            this(1.0);
+        }
+
+        Circle(double radius) {
+            if (!Double.isFinite(radius) || radius &lt;= 0) {
+                throw new IllegalArgumentException(&quot;Radius must be finite and positive&quot;);
+            }
+            this.radius = radius;
+        }
+
+        double getRadius() {
+            return radius;
+        }
+
+        double area() {
+            return Math.PI * radius * radius;
+        }
+    }
+
+    public static void main(String[] args) {
+        Circle defaultCircle = new Circle();
+        Circle customCircle = new Circle(2.5);
+        System.out.println(&quot;Default radius: &quot; + defaultCircle.getRadius());
+        System.out.printf(&quot;Custom radius: %.1f, area: %.2f%n&quot;,
+                customCircle.getRadius(), customCircle.area());
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: CircleCounter</summary><div><p><b>Objective:</b> Count successful circle constructions with static state.</p><p><a href='../2/CircleCounter.java'>Java source</a> Â· <a href='evidence/02-02-CircleCounter.txt'>Execution transcript</a></p>
+<img src='evidence/02-02-CircleCounter.png' alt='Recorded output of CircleCounter' loading='lazy'>
+<p><b>Conclusion:</b> The static field belongs to the class and constructor chaining increments it once.</p><details><summary>Source code</summary><pre>/** Lab 2, Exercise 2: one static counter is shared by every instance. */
+public class CircleCounter {
+    static class Circle {
+        private static int count;
+        private final double radius;
+
+        Circle() {
+            this(1.0);
+        }
+
+        Circle(double radius) {
+            if (!Double.isFinite(radius) || radius &lt;= 0) {
+                throw new IllegalArgumentException(&quot;Radius must be finite and positive&quot;);
+            }
+            this.radius = radius;
+            // EXPLAIN: constructor chaining increments once per successful creation.
+            count++;
+        }
+
+        static int getCount() {
+            return count;
+        }
+
+        double getRadius() {
+            return radius;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Before construction: &quot; + Circle.getCount());
+        Circle[] circles = {new Circle(), new Circle(2), new Circle(3)};
+        for (Circle circle : circles) {
+            System.out.println(&quot;Radius: &quot; + circle.getRadius());
+        }
+        System.out.println(&quot;Circles created: &quot; + Circle.getCount());
+        // Counts successful constructions, not garbage-collector liveness.
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: EmployeeConstructors</summary><div><p><b>Objective:</b> Overload employee constructors and copy data into a new identity.</p><p><a href='../2/EmployeeConstructors.java'>Java source</a> Â· <a href='evidence/02-03-EmployeeConstructors.txt'>Execution transcript</a></p>
+<img src='evidence/02-03-EmployeeConstructors.png' alt='Recorded output of EmployeeConstructors' loading='lazy'>
+<p><b>Conclusion:</b> The copy has equivalent employee data but receives a new object and employee ID.</p><details><summary>Source code</summary><pre>/** Lab 2, Exercise 3: overloaded constructors, unique IDs and copying. */
+public class EmployeeConstructors {
+    static class Employee {
+        private static int nextId = 1000;
+        private final int employeeId;
+        private final String name;
+        private final double salary;
+
+        Employee() {
+            this(&quot;Unknown&quot;, 0);
+        }
+
+        Employee(String name) {
+            this(name, 0);
+        }
+
+        Employee(String name, double salary) {
+            if (name == null || name.isBlank()) {
+                throw new IllegalArgumentException(&quot;Name is required&quot;);
+            }
+            if (!Double.isFinite(salary) || salary &lt; 0) {
+                throw new IllegalArgumentException(&quot;Salary must be finite and nonnegative&quot;);
+            }
+            this.employeeId = nextId++;
+            this.name = name;
+            this.salary = salary;
+        }
+
+        Employee(Employee other) {
+            // EXPLAIN: same data, new object and new employee identity.
+            this(other.name, other.salary);
+        }
+
+        @Override
+        public String toString() {
+            return String.format(&quot;%d: %s ($%.2f)&quot;, employeeId, name, salary);
+        }
+    }
+
+    public static void main(String[] args) {
+        Employee unnamed = new Employee();
+        Employee named = new Employee(&quot;Ada&quot;);
+        Employee original = new Employee(&quot;Tendai&quot;, 1200);
+        Employee copy = new Employee(original);
+        System.out.println(unnamed);
+        System.out.println(named);
+        System.out.println(original);
+        System.out.println(copy);
+        System.out.println(&quot;Same object? &quot; + (original == copy));
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: InitialisationOrder</summary><div><p><b>Objective:</b> Predict and trace static and instance blocks.</p><p><a href='../2/InitialisationOrder.java'>Java source</a> Â· <a href='evidence/02-04-InitialisationOrder.txt'>Execution transcript</a></p>
+<img src='evidence/02-04-InitialisationOrder.png' alt='Recorded output of InitialisationOrder' loading='lazy'>
+<p><b>Conclusion:</b> Static blocks execute once in declaration order; instance blocks execute before each constructor.</p><details><summary>Source code</summary><pre>/** Lab 2, Exercise 4: static blocks run once; instance blocks run per object. */
+public class InitialisationOrder {
+    static class Initialisation {
+        static {
+            System.out.println(&quot;static block 1&quot;);
+        }
+
+        static {
+            System.out.println(&quot;static block 2&quot;);
+        }
+
+        {
+            System.out.println(&quot;instance block 1&quot;);
+        }
+
+        {
+            System.out.println(&quot;instance block 2&quot;);
+        }
+
+        Initialisation() {
+            System.out.println(&quot;constructor&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Prediction: static 1, static 2, instance 1, instance 2, constructor,&quot;);
+        System.out.println(&quot;then instance 1, instance 2, constructor for the second object.&quot;);
+        System.out.println(&quot;--- actual output ---&quot;);
+        new Initialisation();
+        new Initialisation();
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: TemperatureFactories</summary><div><p><b>Objective:</b> Use named static factories and a private constructor.</p><p><a href='../2/TemperatureFactories.java'>Java source</a> Â· <a href='evidence/02-05-TemperatureFactories.txt'>Execution transcript</a></p>
+<img src='evidence/02-05-TemperatureFactories.png' alt='Recorded output of TemperatureFactories' loading='lazy'>
+<p><b>Conclusion:</b> Factory method names distinguish Celsius from Fahrenheit without ambiguous signatures.</p><details><summary>Source code</summary><pre>/** Lab 2, Exercise 5: named factories make the input unit explicit. */
+public class TemperatureFactories {
+    static final class Temperature {
+        private final double celsius;
+
+        private Temperature(double celsius) {
+            if (!Double.isFinite(celsius) || celsius &lt; -273.15) {
+                throw new IllegalArgumentException(&quot;Temperature must be finite and at least -273.15 C&quot;);
+            }
+            this.celsius = celsius;
+        }
+
+        static Temperature fromCelsius(double celsius) {
+            return new Temperature(celsius);
+        }
+
+        static Temperature fromFahrenheit(double fahrenheit) {
+            return new Temperature((fahrenheit - 32) * 5 / 9);
+        }
+
+        double getCelsius() {
+            return celsius;
+        }
+
+        double getFahrenheit() {
+            return celsius * 9 / 5 + 32;
+        }
+    }
+
+    public static void main(String[] args) {
+        Temperature warm = Temperature.fromCelsius(25);
+        Temperature freezing = Temperature.fromFahrenheit(32);
+        System.out.printf(&quot;%.2f C = %.2f F%n&quot;, warm.getCelsius(), warm.getFahrenheit());
+        System.out.printf(&quot;32.00 F = %.2f C%n&quot;, freezing.getCelsius());
+        System.out.println(&quot;Factory names state the unit; two Temperature(double) constructors cannot coexist.&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab3'>Lab 3</h2>
+<details open><summary>Exercise 1: ValidatedStudent</summary><div><p><b>Objective:</b> Reject invalid marks through setters.</p><p><a href='../3/ValidatedStudent.java'>Java source</a> Â· <a href='evidence/03-01-ValidatedStudent.txt'>Execution transcript</a></p>
+<img src='evidence/03-01-ValidatedStudent.png' alt='Recorded output of ValidatedStudent' loading='lazy'>
+<p><b>Conclusion:</b> Validation keeps the previous valid state intact after a failed update.</p><details><summary>Source code</summary><pre>/** Lab 3, Exercise 1: private state is changed through validated setters. */
+public class ValidatedStudent {
+    static class Student {
+        private String name;
+        private int marks;
+
+        Student(String name, int marks) {
+            setName(name);
+            setMarks(marks);
+        }
+
+        public void setName(String name) {
+            if (name == null || name.isBlank()) {
+                throw new IllegalArgumentException(&quot;Name is required&quot;);
+            }
+            this.name = name.trim();
+        }
+
+        public void setMarks(int marks) {
+            if (marks &lt; 0 || marks &gt; 100) {
+                throw new IllegalArgumentException(&quot;Marks must be between 0 and 100&quot;);
+            }
+            this.marks = marks;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getMarks() {
+            return marks;
+        }
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student(&quot;Rudo&quot;, 82);
+        System.out.println(student.getName() + &quot;: &quot; + student.getMarks());
+        try {
+            student.setMarks(120);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(&quot;Rejected: &quot; + exception.getMessage());
+        }
+        System.out.println(&quot;Marks after rejection: &quot; + student.getMarks());
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: StudentGrades</summary><div><p><b>Objective:</b> Compute A, B, C or F from marks.</p><p><a href='../3/StudentGrades.java'>Java source</a> Â· <a href='evidence/03-02-StudentGrades.txt'>Execution transcript</a></p>
+<img src='evidence/03-02-StudentGrades.png' alt='Recorded output of StudentGrades' loading='lazy'>
+<p><b>Conclusion:</b> The grade is derived from marks and cannot become stale.</p><details><summary>Source code</summary><pre>/** Lab 3, Exercise 2: calculate a grade from marks instead of storing it. */
+public class StudentGrades {
+    static class Student {
+        private final String name;
+        private int marks;
+
+        Student(String name, int marks) {
+            if (name == null || name.isBlank()) {
+                throw new IllegalArgumentException(&quot;Name is required&quot;);
+            }
+            this.name = name;
+            setMarks(marks);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getMarks() {
+            return marks;
+        }
+
+        public void setMarks(int marks) {
+            if (marks &lt; 0 || marks &gt; 100) {
+                throw new IllegalArgumentException(&quot;Marks must be between 0 and 100&quot;);
+            }
+            this.marks = marks;
+        }
+
+        public String getGrade() {
+            // Assumption: A &gt;= 75, B &gt;= 60, C &gt;= 50, otherwise F.
+            if (marks &gt;= 75) return &quot;A&quot;;
+            if (marks &gt;= 60) return &quot;B&quot;;
+            if (marks &gt;= 50) return &quot;C&quot;;
+            return &quot;F&quot;;
+        }
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student(&quot;Rudo&quot;, 0);
+        for (int marks : new int[]{0, 49, 50, 59, 60, 74, 75, 100}) {
+            student.setMarks(marks);
+            System.out.println(student.getName() + &quot;: &quot; + student.getMarks()
+                    + &quot; -&gt; &quot; + student.getGrade());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: BankAccountHistory</summary><div><p><b>Objective:</b> Expose an unmodifiable transaction snapshot.</p><p><a href='../3/BankAccountHistory.java'>Java source</a> Â· <a href='evidence/03-03-BankAccountHistory.txt'>Execution transcript</a></p>
+<img src='evidence/03-03-BankAccountHistory.png' alt='Recorded output of BankAccountHistory' loading='lazy'>
+<p><b>Conclusion:</b> List.copyOf prevents both external modification and later changes to a returned snapshot.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.List;
+
+/** Lab 3, Exercise 3: extend BankAccount with a protected history snapshot. */
+public class BankAccountHistory {
+    static class BankAccount {
+        private final String accountNumber;
+        private String ownerName;
+        private double balance;
+        private final List&lt;String&gt; history = new ArrayList&lt;&gt;();
+
+        BankAccount(String accountNumber, String ownerName, double openingBalance) {
+            if (accountNumber == null || accountNumber.isBlank()) {
+                throw new IllegalArgumentException(&quot;Account number is required&quot;);
+            }
+            if (!Double.isFinite(openingBalance) || openingBalance &lt; 0) {
+                throw new IllegalArgumentException(&quot;Opening balance must be finite and nonnegative&quot;);
+            }
+            this.accountNumber = accountNumber;
+            setOwnerName(ownerName);
+            this.balance = openingBalance;
+            history.add(String.format(&quot;Opening balance: %.2f&quot;, openingBalance));
+        }
+
+        public String getAccountNumber() { return accountNumber; }
+        public String getOwnerName() { return ownerName; }
+        public double getBalance() { return balance; }
+
+        public void setOwnerName(String ownerName) {
+            if (ownerName == null || ownerName.isBlank()) {
+                throw new IllegalArgumentException(&quot;Owner name is required&quot;);
+            }
+            this.ownerName = ownerName.trim();
+        }
+
+        public void deposit(double amount) {
+            requirePositive(amount);
+            if (!Double.isFinite(balance + amount)) {
+                throw new IllegalArgumentException(&quot;Resulting balance is too large&quot;);
+            }
+            balance += amount;
+            history.add(String.format(&quot;Deposit: %.2f&quot;, amount));
+        }
+
+        public boolean withdraw(double amount) {
+            requirePositive(amount);
+            if (amount &gt; balance) return false;
+            balance -= amount;
+            history.add(String.format(&quot;Withdrawal: %.2f&quot;, amount));
+            return true;
+        }
+
+        private static void requirePositive(double amount) {
+            if (!Double.isFinite(amount) || amount &lt;= 0) {
+                throw new IllegalArgumentException(&quot;Amount must be finite and positive&quot;);
+            }
+        }
+
+        public List&lt;String&gt; getTransactionHistory() {
+            // EXPLAIN: a snapshot cannot be modified or changed by later transactions.
+            return List.copyOf(history);
+        }
+
+        @Override
+        public String toString() {
+            return String.format(&quot;%s [%s] balance: %.2f&quot;, accountNumber, ownerName, balance);
+        }
+    }
+
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(&quot;ACC-001&quot;, &quot;Tendai&quot;, 500);
+        account.deposit(250);
+        System.out.println(&quot;Withdraw 100: &quot; + account.withdraw(100));
+        System.out.println(&quot;Withdraw 5000: &quot; + account.withdraw(5000));
+        List&lt;String&gt; snapshot = account.getTransactionHistory();
+        try {
+            snapshot.clear();
+        } catch (UnsupportedOperationException exception) {
+            System.out.println(&quot;History modification blocked.&quot;);
+        }
+        account.deposit(50);
+        System.out.println(&quot;Snapshot entries: &quot; + snapshot.size());
+        System.out.println(&quot;Current history: &quot; + account.getTransactionHistory());
+        System.out.println(account);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: ImmutablePerson</summary><div><p><b>Objective:</b> Create a final class with private final fields and no setters.</p><p><a href='../3/ImmutablePerson.java'>Java source</a> Â· <a href='evidence/03-04-ImmutablePerson.txt'>Execution transcript</a></p>
+<img src='evidence/03-04-ImmutablePerson.png' alt='Recorded output of ImmutablePerson' loading='lazy'>
+<p><b>Conclusion:</b> The actual ImmutablePerson class now enforces the requested immutable design.</p><details><summary>Source code</summary><pre>/** Lab 3, Exercise 4: an immutable object cannot change after construction. */
+// EXPLAIN: final prevents a subclass from adding mutable behaviour.
+public final class ImmutablePerson {
+    private final String name;
+    private final int age;
+
+    public ImmutablePerson(String name, int age) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(&quot;Name is required&quot;);
+        }
+        if (age &lt; 0 || age &gt; 120) {
+            throw new IllegalArgumentException(&quot;Age must be between 0 and 120&quot;);
+        }
+        this.name = name.trim();
+        this.age = age;
+    }
+
+    // EXPLAIN: private final fields are assigned once; getters expose values only.
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    // String is immutable and int is a value, so defensive copies are unnecessary.
+
+    @Override
+    public String toString() {
+        return name + &quot; (&quot; + age + &quot;)&quot;;
+    }
+    public static void main(String[] args) {
+        ImmutablePerson person = new ImmutablePerson(&quot;Farai&quot;, 21);
+        System.out.println(person);
+        System.out.println(&quot;Final class, private final fields and no setters prevent mutation.&quot;);
+        System.out.println(&quot;Getters return an immutable String and an int value.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: KelvinTemperature</summary><div><p><b>Objective:</b> Hide kelvin storage behind conversion methods.</p><p><a href='../3/KelvinTemperature.java'>Java source</a> Â· <a href='evidence/03-05-KelvinTemperature.txt'>Execution transcript</a></p>
+<img src='evidence/03-05-KelvinTemperature.png' alt='Recorded output of KelvinTemperature' loading='lazy'>
+<p><b>Conclusion:</b> The public factories and getters stay usable even when the internal unit changes.</p><details><summary>Source code</summary><pre>/** Lab 3, Exercise 5: hide the storage unit behind a stable public interface. */
+public class KelvinTemperature {
+    static final class Temperature {
+        private final double kelvin;
+
+        private Temperature(double kelvin) {
+            if (!Double.isFinite(kelvin) || kelvin &lt; 0) {
+                throw new IllegalArgumentException(&quot;Temperature cannot be below absolute zero or non-finite&quot;);
+            }
+            this.kelvin = kelvin;
+        }
+
+        public static Temperature fromCelsius(double celsius) {
+            return new Temperature(celsius + 273.15);
+        }
+
+        public static Temperature fromFahrenheit(double fahrenheit) {
+            return fromCelsius((fahrenheit - 32) * 5 / 9);
+        }
+
+        public double getCelsius() {
+            return kelvin - 273.15;
+        }
+
+        public double getFahrenheit() {
+            return getCelsius() * 9 / 5 + 32;
+        }
+    }
+
+    public static void main(String[] args) {
+        Temperature temperature = Temperature.fromCelsius(25);
+        System.out.printf(&quot;%.2f C = %.2f F%n&quot;,
+                temperature.getCelsius(), temperature.getFahrenheit());
+        try {
+            Temperature.fromCelsius(-274);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(&quot;Rejected: &quot; + exception.getMessage());
+        }
+        System.out.println(&quot;Callers use the same factories and getters as Lab 2 despite kelvin storage.&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab4'>Lab 4</h2>
+<details open><summary>Exercise 1: PersonStudent</summary><div><p><b>Objective:</b> Reuse Person.display from Student.</p><p><a href='../4/PersonStudent.java'>Java source</a> Â· <a href='evidence/04-01-PersonStudent.txt'>Execution transcript</a></p>
+<img src='evidence/04-01-PersonStudent.png' alt='Recorded output of PersonStudent' loading='lazy'>
+<p><b>Conclusion:</b> An inherited method prints the common name and age; the subclass adds course state.</p><details><summary>Source code</summary><pre>/** Lab 4, Exercise 1: a Student inherits the Person display method. */
+public class PersonStudent {
+    static class Person {
+        private final String name;
+        private final int age;
+
+        Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public void display() {
+            System.out.println(name + &quot;, age &quot; + age);
+        }
+    }
+
+    static class Student extends Person {
+        private final String course;
+
+        Student(String name, int age, String course) {
+            super(name, age);
+            this.course = course;
+        }
+
+        public String getCourse() {
+            return course;
+        }
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person(&quot;Farai&quot;, 35);
+        Student student = new Student(&quot;Tariro&quot;, 20, &quot;Object-Oriented Programming&quot;);
+        person.display();
+        student.display(); // EXPLAIN: display is inherited without being rewritten.
+        System.out.println(&quot;Student course: &quot; + student.getCourse());
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: PersonTeacher</summary><div><p><b>Objective:</b> Share Person code between Student and Teacher.</p><p><a href='../4/PersonTeacher.java'>Java source</a> Â· <a href='evidence/04-02-PersonTeacher.txt'>Execution transcript</a></p>
+<img src='evidence/04-02-PersonTeacher.png' alt='Recorded output of PersonTeacher' loading='lazy'>
+<p><b>Conclusion:</b> Both subclasses inherit one display implementation.</p><details><summary>Source code</summary><pre>/** Lab 4, Exercise 2: Student and Teacher reuse a common superclass. */
+public class PersonTeacher {
+    static class Person {
+        private final String name;
+        private final int age;
+
+        Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public void display() {
+            System.out.println(name + &quot;, age &quot; + age);
+        }
+    }
+
+    static class Student extends Person {
+        private final String course;
+
+        Student(String name, int age, String course) {
+            super(name, age);
+            this.course = course;
+        }
+
+        public String getCourse() { return course; }
+    }
+
+    static class Teacher extends Person {
+        private final String subject;
+
+        Teacher(String name, int age, String subject) {
+            super(name, age);
+            this.subject = subject;
+        }
+
+        public String getSubject() { return subject; }
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student(&quot;Rudo&quot;, 20, &quot;Computer Science&quot;);
+        Teacher teacher = new Teacher(&quot;Mr Moyo&quot;, 40, &quot;Java&quot;);
+        Person[] people = {student, teacher};
+        for (Person person : people) {
+            person.display();
+        }
+        System.out.println(&quot;Course: &quot; + student.getCourse());
+        System.out.println(&quot;Subject: &quot; + teacher.getSubject());
+        System.out.println(&quot;Both subclasses use the single display() implementation in Person.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: VehicleInheritance</summary><div><p><b>Objective:</b> Trace multilevel constructor calls.</p><p><a href='../4/VehicleInheritance.java'>Java source</a> Â· <a href='evidence/04-03-VehicleInheritance.txt'>Execution transcript</a></p>
+<img src='evidence/04-03-VehicleInheritance.png' alt='Recorded output of VehicleInheritance' loading='lazy'>
+<p><b>Conclusion:</b> Superclass constructors finish before subclass constructors.</p><details><summary>Source code</summary><pre>/** Lab 4, Exercise 3: superclass construction precedes subclass construction. */
+public class VehicleInheritance {
+    static class Vehicle {
+        Vehicle() {
+            System.out.println(&quot;Vehicle constructor&quot;);
+        }
+    }
+
+    static class Car extends Vehicle {
+        Car() {
+            super();
+            System.out.println(&quot;Car constructor&quot;);
+        }
+    }
+
+    static class ElectricCar extends Car {
+        ElectricCar() {
+            super();
+            System.out.println(&quot;ElectricCar constructor&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Prediction: Vehicle -&gt; Car -&gt; ElectricCar&quot;);
+        new ElectricCar();
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: AnimalConstructor</summary><div><p><b>Objective:</b> Explain and correct the implicit-super constructor error.</p><p><a href='../4/AnimalConstructor.java'>Java source</a> Â· <a href='evidence/04-04-AnimalConstructor.txt'>Execution transcript</a></p>
+<img src='evidence/04-04-AnimalConstructor.png' alt='Recorded output of AnimalConstructor' loading='lazy'>
+<p><b>Conclusion:</b> The commented failing example needs an explicit call to Animal(String).</p><details><summary>Source code</summary><pre>/** Lab 4, Exercise 4: supply arguments when the parent has no Animal(). */
+public class AnimalConstructor {
+    static class Animal {
+        private final String name;
+
+        Animal(String name) {
+            this.name = name;
+        }
+
+        public String getName() { return name; }
+    }
+
+    /* This would fail to compile (kept as a comment so this solution runs):
+       static class Dog extends Animal {
+           Dog() { }  // implicit super(), but Animal() does not exist
+       }
+    */
+    static class Dog extends Animal {
+        Dog(String name) {
+            super(name); // EXPLAIN: explicitly select the existing Animal(String).
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Dog(&quot;Bingo&quot;).getName());
+        System.out.println(&quot;An empty Dog constructor implies super(), but Animal has only Animal(String).&quot;);
+        System.out.println(&quot;Fix: call super(name) as the first constructor statement.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: ComposedStack</summary><div><p><b>Objective:</b> Replace ArrayList inheritance with stack composition.</p><p><a href='../4/ComposedStack.java'>Java source</a> Â· <a href='evidence/04-05-ComposedStack.txt'>Execution transcript</a></p>
+<img src='evidence/04-05-ComposedStack.png' alt='Recorded output of ComposedStack' loading='lazy'>
+<p><b>Conclusion:</b> Only stack operations are exposed, so callers cannot edit arbitrary list positions.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.EmptyStackException;
+
+/** Lab 4, Exercise 5: composition restricts the public API to stack operations. */
+public class ComposedStack {
+    static class Stack&lt;T&gt; {
+        private final ArrayList&lt;T&gt; items = new ArrayList&lt;&gt;();
+
+        public void push(T item) {
+            items.add(item);
+        }
+
+        public T pop() {
+            if (isEmpty()) throw new EmptyStackException();
+            return items.remove(items.size() - 1);
+        }
+
+        public T peek() {
+            if (isEmpty()) throw new EmptyStackException();
+            return items.get(items.size() - 1);
+        }
+
+        public boolean isEmpty() {
+            return items.isEmpty();
+        }
+    }
+
+    public static void main(String[] args) {
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        stack.push(1);
+        stack.push(2);
+        System.out.println(&quot;Pop: &quot; + stack.pop());
+        System.out.println(&quot;Peek: &quot; + stack.peek());
+        System.out.println(&quot;Pop: &quot; + stack.pop());
+        System.out.println(&quot;Empty? &quot; + stack.isEmpty());
+        System.out.println(&quot;Extending ArrayList exposes add(index, value), set and remove(index),&quot;);
+        System.out.println(&quot;allowing changes in the middle and breaking last-in, first-out discipline.&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab5'>Lab 5</h2>
+<details open><summary>Exercise 1: MethodOverloading</summary><div><p><b>Objective:</b> Test print overloads for four parameter types.</p><p><a href='../5/MethodOverloading.java'>Java source</a> Â· <a href='evidence/05-01-MethodOverloading.txt'>Execution transcript</a></p>
+<img src='evidence/05-01-MethodOverloading.png' alt='Recorded output of MethodOverloading' loading='lazy'>
+<p><b>Conclusion:</b> The declared argument type selects the overload at compile time.</p><details><summary>Source code</summary><pre>import java.util.Arrays;
+
+/** Lab 5, Exercise 1: overloading is selected using argument types. */
+public class MethodOverloading {
+    static class Printer {
+        void print(int value) { System.out.println(&quot;int: &quot; + value); }
+        void print(double value) { System.out.println(&quot;double: &quot; + value); }
+        void print(String value) { System.out.println(&quot;String: &quot; + value); }
+        void print(int[] values) { System.out.println(&quot;int[]: &quot; + Arrays.toString(values)); }
+    }
+
+    public static void main(String[] args) {
+        Printer printer = new Printer();
+        printer.print(4);
+        printer.print(2.5);
+        printer.print(&quot;Java&quot;);
+        printer.print(new int[]{1, 2, 3});
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: AnimalPolymorphism</summary><div><p><b>Objective:</b> Invoke Cat, Cow and Duck sound methods through Animal references.</p><p><a href='../5/AnimalPolymorphism.java'>Java source</a> Â· <a href='evidence/05-02-AnimalPolymorphism.txt'>Execution transcript</a></p>
+<img src='evidence/05-02-AnimalPolymorphism.png' alt='Recorded output of AnimalPolymorphism' loading='lazy'>
+<p><b>Conclusion:</b> The actual object type chooses the overridden sound method at runtime.</p><details><summary>Source code</summary><pre>/** Lab 5, Exercise 2: overridden methods dispatch on the actual object type. */
+public class AnimalPolymorphism {
+    static class Animal {
+        void sound() { System.out.println(&quot;Animal sound&quot;); }
+    }
+
+    static class Cat extends Animal {
+        @Override
+        void sound() { System.out.println(&quot;Meow&quot;); }
+    }
+
+    static class Cow extends Animal {
+        @Override
+        void sound() { System.out.println(&quot;Moo&quot;); }
+    }
+
+    static class Duck extends Animal {
+        @Override
+        void sound() { System.out.println(&quot;Quack&quot;); }
+    }
+
+    public static void main(String[] args) {
+        Animal[] animals = {new Cat(), new Cow(), new Duck()};
+        for (Animal animal : animals) {
+            // EXPLAIN: one call selects a different implementation at run time.
+            animal.sound();
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: EmployeePayroll</summary><div><p><b>Objective:</b> Add Intern and calculate a mixed employee payroll.</p><p><a href='../5/EmployeePayroll.java'>Java source</a> Â· <a href='evidence/05-03-EmployeePayroll.txt'>Execution transcript</a></p>
+<img src='evidence/05-03-EmployeePayroll.png' alt='Recorded output of EmployeePayroll' loading='lazy'>
+<p><b>Conclusion:</b> The same payroll loop handles Employee, Manager, Developer and Intern.</p><details><summary>Source code</summary><pre>/** Lab 5, Exercise 3: extend the manual&#39;s Employee/Manager/Developer hierarchy. */
+public class EmployeePayroll {
+    static class Employee {
+        private final String name;
+        protected final double baseSalary;
+
+        Employee(String name, double baseSalary) {
+            if (name == null || name.isBlank() || !Double.isFinite(baseSalary) || baseSalary &lt; 0) {
+                throw new IllegalArgumentException(&quot;Name and a finite nonnegative salary are required&quot;);
+            }
+            this.name = name;
+            this.baseSalary = baseSalary;
+        }
+
+        public String getName() { return name; }
+        public double calculatePay() { return baseSalary; }
+    }
+
+    static class Manager extends Employee {
+        private final double bonus;
+
+        Manager(String name, double baseSalary, double bonus) {
+            super(name, baseSalary);
+            if (!Double.isFinite(bonus) || bonus &lt; 0) throw new IllegalArgumentException(&quot;Invalid bonus&quot;);
+            this.bonus = bonus;
+        }
+
+        @Override
+        public double calculatePay() { return super.calculatePay() + bonus; }
+    }
+
+    static class Developer extends Employee {
+        private static final double OVERTIME_RATE = 25;
+        private final int overtimeHours;
+
+        Developer(String name, double baseSalary, int overtimeHours) {
+            super(name, baseSalary);
+            if (overtimeHours &lt; 0) throw new IllegalArgumentException(&quot;Invalid overtime hours&quot;);
+            this.overtimeHours = overtimeHours;
+        }
+
+        @Override
+        public double calculatePay() { return baseSalary + overtimeHours * OVERTIME_RATE; }
+    }
+
+    static class Intern extends Employee {
+        Intern(String name, double stipend) { super(name, stipend); }
+
+        @Override
+        public double calculatePay() { return baseSalary; }
+    }
+
+    static double printPayroll(Employee[] employees) {
+        double total = 0;
+        for (Employee employee : employees) {
+            // EXPLAIN: no instanceof or subclass-specific branches are necessary.
+            double pay = employee.calculatePay();
+            System.out.printf(&quot;%s earns %.2f%n&quot;, employee.getName(), pay);
+            total += pay;
+        }
+        return total;
+    }
+
+    public static void main(String[] args) {
+        Employee[] employees = {
+            new Employee(&quot;Kudzai&quot;, 2000), new Manager(&quot;Nyasha&quot;, 3500, 800),
+            new Developer(&quot;Tatenda&quot;, 3000, 10), new Intern(&quot;Rudo&quot;, 600)
+        };
+        System.out.printf(&quot;Total payroll: %.2f%n&quot;, printPayroll(employees));
+        System.out.println(&quot;Adding Intern changes the array, not the payroll loop.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: FieldMethodDispatch</summary><div><p><b>Objective:</b> Contrast field hiding and method dispatch.</p><p><a href='../5/FieldMethodDispatch.java'>Java source</a> Â· <a href='evidence/05-04-FieldMethodDispatch.txt'>Execution transcript</a></p>
+<img src='evidence/05-04-FieldMethodDispatch.png' alt='Recorded output of FieldMethodDispatch' loading='lazy'>
+<p><b>Conclusion:</b> Fields use the reference type while overridden methods use the runtime object type.</p><details><summary>Source code</summary><pre>/** Lab 5, Exercise 4: field hiding differs from method overriding. */
+public class FieldMethodDispatch {
+    static class Parent {
+        String label = &quot;parent&quot;;
+        String getLabel() { return label; }
+    }
+
+    static class Child extends Parent {
+        String label = &quot;child&quot;;
+
+        @Override
+        String getLabel() { return label; }
+    }
+
+    public static void main(String[] args) {
+        Parent parent = new Child();
+        System.out.println(&quot;Field through Parent: &quot; + parent.label);
+        System.out.println(&quot;Method through Parent: &quot; + parent.getLabel());
+        System.out.println(&quot;Fields follow the declared reference type (Parent).&quot;);
+        System.out.println(&quot;Overridden methods follow the runtime object type (Child).&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: PaymentProcessing</summary><div><p><b>Objective:</b> Compare instanceof pattern matching with process dispatch.</p><p><a href='../5/PaymentProcessing.java'>Java source</a> Â· <a href='evidence/05-05-PaymentProcessing.txt'>Execution transcript</a></p>
+<img src='evidence/05-05-PaymentProcessing.png' alt='Recorded output of PaymentProcessing' loading='lazy'>
+<p><b>Conclusion:</b> A new polymorphic payment class can reuse the processor without adding type branches.</p><details><summary>Source code</summary><pre>/** Lab 5, Exercise 5: compare pattern matching with polymorphic dispatch. */
+public class PaymentProcessing {
+    interface Payment {
+        void process();
+    }
+
+    static class CardPayment implements Payment {
+        private final String lastFourDigits;
+
+        CardPayment(String lastFourDigits) { this.lastFourDigits = lastFourDigits; }
+        public String getLastFourDigits() { return lastFourDigits; }
+
+        @Override
+        public void process() {
+            System.out.println(&quot;Card ending &quot; + lastFourDigits + &quot; processed&quot;);
+        }
+    }
+
+    static class MobileMoneyPayment implements Payment {
+        private final String provider;
+
+        MobileMoneyPayment(String provider) { this.provider = provider; }
+        public String getProvider() { return provider; }
+
+        @Override
+        public void process() { System.out.println(provider + &quot; payment processed&quot;); }
+    }
+
+    static class PaymentProcessor {
+        void pay(Payment payment) {
+            // EXPLAIN: the pattern variable combines a type check with a safe cast.
+            if (payment instanceof CardPayment card) {
+                System.out.println(&quot;Card ending &quot; + card.getLastFourDigits() + &quot; processed&quot;);
+            } else if (payment instanceof MobileMoneyPayment mobile) {
+                System.out.println(mobile.getProvider() + &quot; payment processed&quot;);
+            } else {
+                throw new IllegalArgumentException(&quot;Unsupported payment type&quot;);
+            }
+        }
+
+        void payPolymorphically(Payment payment) {
+            payment.process();
+        }
+    }
+
+    public static void main(String[] args) {
+        PaymentProcessor processor = new PaymentProcessor();
+        Payment[] payments = {new CardPayment(&quot;1234&quot;), new MobileMoneyPayment(&quot;EcoCash&quot;)};
+        System.out.println(&quot;Pattern matching:&quot;);
+        for (Payment payment : payments) processor.pay(payment);
+        System.out.println(&quot;Polymorphism:&quot;);
+        for (Payment payment : payments) processor.payPolymorphically(payment);
+        System.out.println(&quot;A new payment type needs a new branch in pay; process dispatch needs no branch change.&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab6'>Lab 6</h2>
+<details open><summary>Exercise 1: AbstractShapes</summary><div><p><b>Objective:</b> Implement abstract area and perimeter contracts.</p><p><a href='../6/AbstractShapes.java'>Java source</a> Â· <a href='evidence/06-01-AbstractShapes.txt'>Execution transcript</a></p>
+<img src='evidence/06-01-AbstractShapes.png' alt='Recorded output of AbstractShapes' loading='lazy'>
+<p><b>Conclusion:</b> Concrete shapes fulfil the same abstract contract with different calculations.</p><details><summary>Source code</summary><pre>/** Lab 6, Exercise 1: concrete shapes implement an abstract contract. */
+public class AbstractShapes {
+    static abstract class Shape {
+        public abstract double area();
+        public abstract double perimeter();
+
+        protected static double positive(double dimension) {
+            if (!Double.isFinite(dimension) || dimension &lt;= 0) {
+                throw new IllegalArgumentException(&quot;Dimensions must be finite and positive&quot;);
+            }
+            return dimension;
+        }
+    }
+
+    static class Circle extends Shape {
+        private final double radius;
+        Circle(double radius) { this.radius = positive(radius); }
+        @Override public double area() { return Math.PI * radius * radius; }
+        @Override public double perimeter() { return 2 * Math.PI * radius; }
+    }
+
+    static class Rectangle extends Shape {
+        private final double width;
+        private final double height;
+        Rectangle(double width, double height) {
+            this.width = positive(width);
+            this.height = positive(height);
+        }
+        @Override public double area() { return width * height; }
+        @Override public double perimeter() { return 2 * (width + height); }
+    }
+
+    static class Square extends Rectangle {
+        Square(double side) { super(side, side); }
+    }
+
+    public static void main(String[] args) {
+        Shape[] shapes = {new Circle(2), new Rectangle(2, 3), new Square(4)};
+        for (Shape shape : shapes) {
+            System.out.printf(&quot;%s: area=%.2f, perimeter=%.2f%n&quot;,
+                    shape.getClass().getSimpleName(), shape.area(), shape.perimeter());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: FlyableDemo</summary><div><p><b>Objective:</b> Give unrelated classes a shared interface.</p><p><a href='../6/FlyableDemo.java'>Java source</a> Â· <a href='evidence/06-02-FlyableDemo.txt'>Execution transcript</a></p>
+<img src='evidence/06-02-FlyableDemo.png' alt='Recorded output of FlyableDemo' loading='lazy'>
+<p><b>Conclusion:</b> An interface describes a shared capability without a shared domain superclass.</p><details><summary>Source code</summary><pre>/** Lab 6, Exercise 2: unrelated classes share a capability through an interface. */
+public class FlyableDemo {
+    interface Flyable {
+        void fly();
+    }
+
+    static class Bird implements Flyable {
+        @Override public void fly() { System.out.println(&quot;Bird flies using wings&quot;); }
+    }
+
+    static class Aeroplane implements Flyable {
+        @Override public void fly() { System.out.println(&quot;Aeroplane flies using engines and wings&quot;); }
+    }
+
+    public static void main(String[] args) {
+        // Both ultimately extend Object, but have no shared domain superclass.
+        Flyable[] flyers = {new Bird(), new Aeroplane()};
+        for (Flyable flyer : flyers) flyer.fly();
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: AccountAbstraction</summary><div><p><b>Objective:</b> Share deposit logic and specialise monthly fees.</p><p><a href='../6/AccountAbstraction.java'>Java source</a> Â· <a href='evidence/06-03-AccountAbstraction.txt'>Execution transcript</a></p>
+<img src='evidence/06-03-AccountAbstraction.png' alt='Recorded output of AccountAbstraction' loading='lazy'>
+<p><b>Conclusion:</b> Concrete account types supply the abstract fee while reusing balance management.</p><details><summary>Source code</summary><pre>/** Lab 6, Exercise 3: abstract accounts share deposit behaviour. */
+public class AccountAbstraction {
+    static abstract class Account {
+        private double balance;
+
+        Account(double openingBalance) {
+            if (!Double.isFinite(openingBalance) || openingBalance &lt; 0) {
+                throw new IllegalArgumentException(&quot;Invalid opening balance&quot;);
+            }
+            balance = openingBalance;
+        }
+
+        public final void deposit(double amount) {
+            if (!Double.isFinite(amount) || amount &lt;= 0 || !Double.isFinite(balance + amount)) {
+                throw new IllegalArgumentException(&quot;Deposit must be positive and leave a finite balance&quot;);
+            }
+            balance += amount;
+        }
+
+        public double getBalance() { return balance; }
+        public abstract double monthlyFee();
+    }
+
+    static class SavingsAccount extends Account {
+        SavingsAccount(double balance) { super(balance); }
+        @Override public double monthlyFee() { return 5; }
+    }
+
+    static class CurrentAccount extends Account {
+        CurrentAccount(double balance) { super(balance); }
+        @Override public double monthlyFee() { return 12; }
+    }
+
+    public static void main(String[] args) {
+        Account[] accounts = {new SavingsAccount(100), new CurrentAccount(100)};
+        for (Account account : accounts) {
+            account.deposit(50);
+            System.out.printf(&quot;%s: balance=%.2f, monthly fee=%.2f%n&quot;,
+                    account.getClass().getSimpleName(), account.getBalance(), account.monthlyFee());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: ComparableStudents</summary><div><p><b>Objective:</b> Sort students by natural name order and a marks comparator.</p><p><a href='../6/ComparableStudents.java'>Java source</a> Â· <a href='evidence/06-04-ComparableStudents.txt'>Execution transcript</a></p>
+<img src='evidence/06-04-ComparableStudents.png' alt='Recorded output of ComparableStudents' loading='lazy'>
+<p><b>Conclusion:</b> Comparable supplies the default ordering and Comparator supplies an alternative.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/** Lab 6, Exercise 4: natural ordering and an alternative Comparator. */
+public class ComparableStudents {
+    record Student(String name, int marks) implements Comparable&lt;Student&gt; {
+        Student {
+            if (name == null || name.isBlank() || marks &lt; 0 || marks &gt; 100) {
+                throw new IllegalArgumentException(&quot;Name and marks from 0 to 100 are required&quot;);
+            }
+        }
+
+        @Override
+        public int compareTo(Student other) {
+            return name.compareTo(other.name);
+        }
+    }
+
+    public static void main(String[] args) {
+        List&lt;Student&gt; students = new ArrayList&lt;&gt;(List.of(
+                new Student(&quot;Zoe&quot;, 80), new Student(&quot;Ada&quot;, 90), new Student(&quot;Ben&quot;, 70)));
+        Collections.sort(students);
+        System.out.println(&quot;By name: &quot; + students);
+        students.sort(Comparator.comparingInt(Student::marks).thenComparing(Student::name));
+        System.out.println(&quot;By marks ascending: &quot; + students);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: DefaultMethodConflict</summary><div><p><b>Objective:</b> Resolve two conflicting interface default methods.</p><p><a href='../6/DefaultMethodConflict.java'>Java source</a> Â· <a href='evidence/06-05-DefaultMethodConflict.txt'>Execution transcript</a></p>
+<img src='evidence/06-05-DefaultMethodConflict.png' alt='Recorded output of DefaultMethodConflict' loading='lazy'>
+<p><b>Conclusion:</b> The class overrides hello and explicitly chooses defaults with InterfaceName.super.</p><details><summary>Source code</summary><pre>/** Lab 6, Exercise 5: resolve conflicting interface default methods explicitly. */
+public class DefaultMethodConflict {
+    interface FirstGreeting {
+        default void hello() { System.out.println(&quot;First greeting&quot;); }
+    }
+
+    interface SecondGreeting {
+        default void hello() { System.out.println(&quot;Second greeting&quot;); }
+    }
+
+    static class Both implements FirstGreeting, SecondGreeting {
+        @Override
+        public void hello() {
+            FirstGreeting.super.hello();
+            SecondGreeting.super.hello();
+            System.out.println(&quot;Both resolves the conflict&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        new Both().hello();
+        System.out.println(&quot;Unrelated interfaces provide the same default signature, so the class must override it.&quot;);
+        System.out.println(&quot;InterfaceName.super.hello() explicitly selects a default implementation.&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab7'>Lab 7</h2>
+<details open><summary>Exercise 1: SafeDivision</summary><div><p><b>Objective:</b> Read integers and handle invalid input or zero divisor.</p><p><a href='../7/SafeDivision.java'>Java source</a> Â· <a href='evidence/07-01-SafeDivision.txt'>Execution transcript</a></p>
+<img src='evidence/07-01-SafeDivision.png' alt='Recorded output of SafeDivision' loading='lazy'>
+<p><b>Conclusion:</b> Successful integer division and both requested exception paths are exercised.</p><details><summary>Source code</summary><pre>import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+/** Lab 7, Exercise 1: handle invalid integer input and division by zero. */
+public class SafeDivision {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print(&quot;Enter two integers: &quot;);
+            int numerator = scanner.nextInt();
+            int denominator = scanner.nextInt();
+            System.out.println(&quot;Result: &quot; + (numerator / denominator));
+        } catch (InputMismatchException exception) {
+            System.out.println(&quot;Input must contain two valid integers.&quot;);
+        } catch (NoSuchElementException exception) {
+            System.out.println(&quot;Input ended before two integers were supplied.&quot;);
+        } catch (ArithmeticException exception) {
+            System.out.println(&quot;Cannot divide by zero.&quot;);
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: SafeArrayAccess</summary><div><p><b>Objective:</b> Catch array index errors at the access point.</p><p><a href='../7/SafeArrayAccess.java'>Java source</a> Â· <a href='evidence/07-02-SafeArrayAccess.txt'>Execution transcript</a></p>
+<img src='evidence/07-02-SafeArrayAccess.png' alt='Recorded output of SafeArrayAccess' loading='lazy'>
+<p><b>Conclusion:</b> Invalid indexes are reported without terminating the demonstration.</p><details><summary>Source code</summary><pre>/** Lab 7, Exercise 2: catch an invalid array index at the access point. */
+public class SafeArrayAccess {
+    static void printElement(int[] values, int index) {
+        try {
+            System.out.println(&quot;Element at &quot; + index + &quot;: &quot; + values[index]);
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.out.println(&quot;Index &quot; + index + &quot; is outside 0 to &quot; + (values.length - 1));
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30};
+        printElement(values, 1);
+        printElement(values, -1);
+        printElement(values, values.length);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: AgeValidation</summary><div><p><b>Objective:</b> Throw a checked exception outside ages 0 to 120.</p><p><a href='../7/AgeValidation.java'>Java source</a> Â· <a href='evidence/07-03-AgeValidation.txt'>Execution transcript</a></p>
+<img src='evidence/07-03-AgeValidation.png' alt='Recorded output of AgeValidation' loading='lazy'>
+<p><b>Conclusion:</b> The checked exception makes validation failure part of the method contract.</p><details><summary>Source code</summary><pre>/** Lab 7, Exercise 3: a checked exception must be caught or declared. */
+public class AgeValidation {
+    static class InvalidAgeException extends Exception {
+        private static final long serialVersionUID = 1L;
+
+        InvalidAgeException(int age) {
+            super(&quot;Invalid age: &quot; + age + &quot;; expected 0 to 120&quot;);
+        }
+    }
+
+    static void validateAge(int age) throws InvalidAgeException {
+        if (age &lt; 0 || age &gt; 120) throw new InvalidAgeException(age);
+    }
+
+    public static void main(String[] args) {
+        for (int age : new int[]{-1, 0, 20, 120, 121}) {
+            try {
+                validateAge(age);
+                System.out.println(age + &quot; is valid&quot;);
+            } catch (InvalidAgeException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: InsufficientFunds</summary><div><p><b>Objective:</b> Throw a checked exception instead of returning false.</p><p><a href='../7/InsufficientFunds.java'>Java source</a> Â· <a href='evidence/07-04-InsufficientFunds.txt'>Execution transcript</a></p>
+<img src='evidence/07-04-InsufficientFunds.png' alt='Recorded output of InsufficientFunds' loading='lazy'>
+<p><b>Conclusion:</b> The exception carries failure details and leaves the account balance unchanged.</p><details><summary>Source code</summary><pre>/** Lab 7, Exercise 4: replace an insufficient-funds boolean with a checked exception. */
+public class InsufficientFunds {
+    static class InsufficientFundsException extends Exception {
+        private static final long serialVersionUID = 1L;
+
+        InsufficientFundsException(double balance, double requested) {
+            super(String.format(&quot;Requested %.2f, but only %.2f is available&quot;, requested, balance));
+        }
+    }
+
+    static class BankAccount {
+        private final String accountNumber;
+        private final String ownerName;
+        private double balance;
+
+        BankAccount(String accountNumber, String ownerName, double openingBalance) {
+            if (accountNumber == null || accountNumber.isBlank() || ownerName == null || ownerName.isBlank()) {
+                throw new IllegalArgumentException(&quot;Account number and owner name are required&quot;);
+            }
+            if (!Double.isFinite(openingBalance) || openingBalance &lt; 0) {
+                throw new IllegalArgumentException(&quot;Opening balance must be finite and nonnegative&quot;);
+            }
+            this.accountNumber = accountNumber;
+            this.ownerName = ownerName;
+            this.balance = openingBalance;
+        }
+
+        public double getBalance() { return balance; }
+
+        public void deposit(double amount) {
+            requirePositive(amount);
+            if (!Double.isFinite(balance + amount)) throw new IllegalArgumentException(&quot;Balance too large&quot;);
+            balance += amount;
+        }
+
+        public void withdraw(double amount) throws InsufficientFundsException {
+            requirePositive(amount);
+            if (amount &gt; balance) throw new InsufficientFundsException(balance, amount);
+            balance -= amount;
+        }
+
+        private static void requirePositive(double amount) {
+            if (!Double.isFinite(amount) || amount &lt;= 0) {
+                throw new IllegalArgumentException(&quot;Amount must be finite and positive&quot;);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return String.format(&quot;%s [%s] balance: %.2f&quot;, accountNumber, ownerName, balance);
+        }
+    }
+
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(&quot;ACC-001&quot;, &quot;Tendai&quot;, 50);
+        account.deposit(25);
+        try {
+            account.withdraw(20);
+            System.out.println(account);
+            account.withdraw(70);
+        } catch (InsufficientFundsException exception) {
+            System.out.println(&quot;Withdrawal rejected: &quot; + exception.getMessage());
+        }
+        System.out.println(&quot;Balance after rejected withdrawal: &quot; + account.getBalance());
+        System.out.println(&quot;A checked exception forces handling and carries details; a boolean is simpler for routine failure.&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: FinallyReturn</summary><div><p><b>Objective:</b> Predict finally execution around a return.</p><p><a href='../7/FinallyReturn.java'>Java source</a> Â· <a href='evidence/07-05-FinallyReturn.txt'>Execution transcript</a></p>
+<img src='evidence/07-05-FinallyReturn.png' alt='Recorded output of FinallyReturn' loading='lazy'>
+<p><b>Conclusion:</b> The finally block executes before the pending return completes.</p><details><summary>Source code</summary><pre>/** Lab 7, Exercise 5: finally executes before a pending return completes. */
+public class FinallyReturn {
+    static int demonstrateFinally() {
+        try {
+            return 1;
+        } finally {
+            // EXPLAIN: cleanup runs after evaluating the return value, before returning.
+            System.out.println(&quot;finally executes before return&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Prediction: the finally message appears first, followed by returned: 1.&quot;);
+        System.out.println(&quot;returned: &quot; + demonstrateFinally());
+    }
+}
+</pre></details></div></details>
+<h2 id='lab8'>Lab 8</h2>
+<details open><summary>Exercise 1: IntegerArrayList</summary><div><p><b>Objective:</b> Summarise ten integers and reverse their order.</p><p><a href='../8/IntegerArrayList.java'>Java source</a> Â· <a href='evidence/08-01-IntegerArrayList.txt'>Execution transcript</a></p>
+<img src='evidence/08-01-IntegerArrayList.png' alt='Recorded output of IntegerArrayList' loading='lazy'>
+<p><b>Conclusion:</b> ArrayList stores boxed integers and Collections supplies maximum and reversal operations.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/** Lab 8, Exercise 1: store and summarise ten integers in an ArrayList. */
+public class IntegerArrayList {
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;&gt;(List.of(4, 8, 1, 9, 2, 6, 3, 7, 5, 10));
+        int sum = 0;
+        for (int number : numbers) sum += number;
+        System.out.println(&quot;Original: &quot; + numbers);
+        System.out.println(&quot;Sum: &quot; + sum);
+        System.out.println(&quot;Maximum: &quot; + Collections.max(numbers));
+        Collections.reverse(numbers);
+        System.out.println(&quot;Reverse order: &quot; + numbers);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: UniqueNames</summary><div><p><b>Objective:</b> Remove name duplicates with a Set.</p><p><a href='../8/UniqueNames.java'>Java source</a> Â· <a href='evidence/08-02-UniqueNames.txt'>Execution transcript</a></p>
+<img src='evidence/08-02-UniqueNames.png' alt='Recorded output of UniqueNames' loading='lazy'>
+<p><b>Conclusion:</b> LinkedHashSet also preserves first-occurrence order.</p><details><summary>Source code</summary><pre>import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+/** Lab 8, Exercise 2: a Set stores each distinct name once. */
+public class UniqueNames {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = List.of(&quot;Ana&quot;, &quot;Ben&quot;, &quot;Ana&quot;, &quot;Cleo&quot;, &quot;Ben&quot;);
+        // EXPLAIN: LinkedHashSet also preserves first-occurrence order.
+        Set&lt;String&gt; uniqueNames = new LinkedHashSet&lt;&gt;(names);
+        System.out.println(&quot;Original: &quot; + names);
+        System.out.println(&quot;Without duplicates: &quot; + uniqueNames);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: GenericStack</summary><div><p><b>Objective:</b> Build a generic stack with all four operations.</p><p><a href='../8/GenericStack.java'>Java source</a> Â· <a href='evidence/08-03-GenericStack.txt'>Execution transcript</a></p>
+<img src='evidence/08-03-GenericStack.png' alt='Recorded output of GenericStack' loading='lazy'>
+<p><b>Conclusion:</b> Type parameters give compile-time safety and empty-stack operations fail clearly.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.EmptyStackException;
+
+/** Lab 8, Exercise 3: a type-safe last-in, first-out collection. */
+public class GenericStack {
+    static class Stack&lt;T&gt; {
+        private final ArrayList&lt;T&gt; items = new ArrayList&lt;&gt;();
+
+        public void push(T item) { items.add(item); }
+
+        public T pop() {
+            if (isEmpty()) throw new EmptyStackException();
+            return items.remove(items.size() - 1);
+        }
+
+        public T peek() {
+            if (isEmpty()) throw new EmptyStackException();
+            return items.get(items.size() - 1);
+        }
+
+        public boolean isEmpty() { return items.isEmpty(); }
+    }
+
+    public static void main(String[] args) {
+        Stack&lt;String&gt; words = new Stack&lt;&gt;();
+        words.push(&quot;First&quot;);
+        words.push(&quot;Second&quot;);
+        System.out.println(&quot;Peek: &quot; + words.peek());
+        System.out.println(&quot;Pop: &quot; + words.pop());
+        System.out.println(&quot;Pop: &quot; + words.pop());
+        System.out.println(&quot;Empty? &quot; + words.isEmpty());
+        try {
+            words.pop();
+        } catch (EmptyStackException exception) {
+            System.out.println(&quot;Cannot pop an empty stack.&quot;);
+        }
+        Stack&lt;Integer&gt; numbers = new Stack&lt;&gt;();
+        numbers.push(42);
+        System.out.println(&quot;Integer stack: &quot; + numbers.pop());
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: WordFrequency</summary><div><p><b>Objective:</b> Read and rank case-insensitive word frequencies.</p><p><a href='../8/WordFrequency.java'>Java source</a> Â· <a href='evidence/08-04-WordFrequency.txt'>Execution transcript</a></p>
+<img src='evidence/08-04-WordFrequency.png' alt='Recorded output of WordFrequency' loading='lazy'>
+<p><b>Conclusion:</b> A map counts words, then entries sort by decreasing count and alphabetic tie-break.</p><details><summary>Source code</summary><pre>import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/** Lab 8, Exercise 4: read a paragraph and rank case-insensitive word frequencies. */
+public class WordFrequency {
+    static Map&lt;String, Integer&gt; countWords(String paragraph) {
+        Map&lt;String, Integer&gt; frequencies = new HashMap&lt;&gt;();
+        // Words consist of letters/digits and may contain an internal apostrophe.
+        Matcher matcher = Pattern.compile(&quot;[\\p{L}\\p{N}]+(?:&#39;[\\p{L}\\p{N}]+)*&quot;)
+                .matcher(paragraph.toLowerCase(Locale.ROOT));
+        while (matcher.find()) frequencies.merge(matcher.group(), 1, Integer::sum);
+        return frequencies;
+    }
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println(&quot;Enter a paragraph on one line:&quot;);
+            if (!scanner.hasNextLine()) {
+                System.out.println(&quot;No paragraph supplied.&quot;);
+                return;
+            }
+            Map&lt;String, Integer&gt; frequencies = countWords(scanner.nextLine());
+            if (frequencies.isEmpty()) System.out.println(&quot;No words found.&quot;);
+            frequencies.entrySet().stream()
+                    .sorted(Map.Entry.&lt;String, Integer&gt;comparingByValue().reversed()
+                            .thenComparing(Map.Entry.comparingByKey()))
+                    .forEach(entry -&gt; System.out.println(entry.getKey() + &quot;: &quot; + entry.getValue()));
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: GenericBubbleSort</summary><div><p><b>Objective:</b> Sort Integer and String arrays with a bounded generic method.</p><p><a href='../8/GenericBubbleSort.java'>Java source</a> Â· <a href='evidence/08-05-GenericBubbleSort.txt'>Execution transcript</a></p>
+<img src='evidence/08-05-GenericBubbleSort.png' alt='Recorded output of GenericBubbleSort' loading='lazy'>
+<p><b>Conclusion:</b> Comparable supplies comparisons; int[] cannot bind to reference-type T[].</p><details><summary>Source code</summary><pre>import java.util.Arrays;
+
+/** Lab 8, Exercise 5: sort comparable reference types with a generic method. */
+public class GenericBubbleSort {
+    static &lt;T extends Comparable&lt;T&gt;&gt; void bubbleSort(T[] values) {
+        for (int pass = 0; pass &lt; values.length - 1; pass++) {
+            boolean swapped = false;
+            for (int index = 0; index &lt; values.length - 1 - pass; index++) {
+                if (values[index].compareTo(values[index + 1]) &gt; 0) {
+                    T temporary = values[index];
+                    values[index] = values[index + 1];
+                    values[index + 1] = temporary;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break;
+        }
+    }
+
+    public static void main(String[] args) {
+        Integer[] numbers = {3, 1, 2, 1};
+        String[] words = {&quot;Zebra&quot;, &quot;Apple&quot;, &quot;Mango&quot;};
+        bubbleSort(numbers);
+        bubbleSort(words);
+        System.out.println(Arrays.toString(numbers));
+        System.out.println(Arrays.toString(words));
+        System.out.println(&quot;int[] cannot bind to T[]: generics require reference types; use Integer[].&quot;);
+    }
+}
+</pre></details></div></details>
+<h2 id='lab9'>Lab 9</h2>
+<details open><summary>Exercise 1: LevelAdvice</summary><div><p><b>Objective:</b> Switch over the three enum constants.</p><p><a href='../9/LevelAdvice.java'>Java source</a> Â· <a href='evidence/09-01-LevelAdvice.txt'>Execution transcript</a></p>
+<img src='evidence/09-01-LevelAdvice.png' alt='Recorded output of LevelAdvice' loading='lazy'>
+<p><b>Conclusion:</b> The enum restricts input to the defined levels.</p><details><summary>Source code</summary><pre>/** Lab 9, Exercise 1: enum constants form a fixed set of valid levels. */
+public class LevelAdvice {
+    enum Level { LOW, MEDIUM, HIGH }
+
+    static String advice(Level level) {
+        return switch (level) {
+            case LOW -&gt; &quot;Proceed normally&quot;;
+            case MEDIUM -&gt; &quot;Be careful&quot;;
+            case HIGH -&gt; &quot;Take immediate action&quot;;
+        };
+    }
+
+    public static void main(String[] args) {
+        for (Level level : Level.values()) {
+            System.out.println(level + &quot;: &quot; + advice(level));
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: StudentRecord</summary><div><p><b>Objective:</b> Print a record, compare equal values and access components.</p><p><a href='../9/StudentRecord.java'>Java source</a> Â· <a href='evidence/09-02-StudentRecord.txt'>Execution transcript</a></p>
+<img src='evidence/09-02-StudentRecord.png' alt='Recorded output of StudentRecord' loading='lazy'>
+<p><b>Conclusion:</b> Records generate component accessors and value-based equality.</p><details><summary>Source code</summary><pre>/** Lab 9, Exercise 2: records generate accessors and value-based Object methods. */
+public class StudentRecord {
+    record Student(String name, int age) { }
+
+    public static void main(String[] args) {
+        Student first = new Student(&quot;Rudo&quot;, 20);
+        Student second = new Student(&quot;Rudo&quot;, 20);
+        System.out.println(first);
+        System.out.println(&quot;Equal values? &quot; + first.equals(second));
+        System.out.println(&quot;Same object? &quot; + (first == second));
+        System.out.println(&quot;Name component: &quot; + first.name());
+        System.out.println(&quot;Age component: &quot; + first.age());
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: BookEquality</summary><div><p><b>Objective:</b> Reject duplicate ISBNs in a HashSet.</p><p><a href='../9/BookEquality.java'>Java source</a> Â· <a href='evidence/09-03-BookEquality.txt'>Execution transcript</a></p>
+<img src='evidence/09-03-BookEquality.png' alt='Recorded output of BookEquality' loading='lazy'>
+<p><b>Conclusion:</b> Matching equals and hashCode allow correct set membership.</p><details><summary>Source code</summary><pre>import java.util.HashSet;
+import java.util.Set;
+
+/** Lab 9, Exercise 3: ISBN determines Book equality and hash codes. */
+public class BookEquality {
+    static final class Book {
+        private final String title;
+        private final String isbn;
+
+        Book(String title, String isbn) {
+            if (title == null || title.isBlank() || isbn == null || isbn.isBlank()) {
+                throw new IllegalArgumentException(&quot;Title and ISBN are required&quot;);
+            }
+            this.title = title;
+            this.isbn = isbn;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return this == other || other instanceof Book book &amp;&amp; isbn.equals(book.isbn);
+        }
+
+        @Override
+        public int hashCode() {
+            // EXPLAIN: equal ISBNs must give equal hash codes for HashSet lookup.
+            return isbn.hashCode();
+        }
+
+        @Override
+        public String toString() { return title + &quot; [ISBN &quot; + isbn + &quot;]&quot;; }
+    }
+
+    public static void main(String[] args) {
+        Book first = new Book(&quot;Java&quot;, &quot;978-0000000001&quot;);
+        Book duplicate = new Book(&quot;Another edition&quot;, &quot;978-0000000001&quot;);
+        Set&lt;Book&gt; books = new HashSet&lt;&gt;();
+        System.out.println(&quot;First added? &quot; + books.add(first));
+        System.out.println(&quot;Duplicate added? &quot; + books.add(duplicate));
+        System.out.println(&quot;Equal? &quot; + first.equals(duplicate));
+        System.out.println(&quot;Equal hashes? &quot; + (first.hashCode() == duplicate.hashCode()));
+        System.out.println(&quot;Books stored: &quot; + books.size());
+        System.out.println(first);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: CustomLinkedList</summary><div><p><b>Objective:</b> Use a static Node and inner iterator in a for-each loop.</p><p><a href='../9/CustomLinkedList.java'>Java source</a> Â· <a href='evidence/09-04-CustomLinkedList.txt'>Execution transcript</a></p>
+<img src='evidence/09-04-CustomLinkedList.png' alt='Recorded output of CustomLinkedList' loading='lazy'>
+<p><b>Conclusion:</b> The list implements Iterable and its iterator obeys the exhaustion contract.</p><details><summary>Source code</summary><pre>import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/** Lab 9, Exercise 4: a static Node and an inner Iterator support for-each. */
+public class CustomLinkedList {
+    static class LinkedList&lt;T&gt; implements Iterable&lt;T&gt; {
+        // EXPLAIN: static nodes do not retain a reference to the enclosing list.
+        private static class Node&lt;T&gt; {
+            private final T value;
+            private Node&lt;T&gt; next;
+            Node(T value) { this.value = value; }
+        }
+
+        private Node&lt;T&gt; head;
+        private Node&lt;T&gt; tail;
+        private int modificationCount;
+
+        public void add(T value) {
+            Node&lt;T&gt; node = new Node&lt;&gt;(value);
+            if (head == null) head = node;
+            else tail.next = node;
+            tail = node;
+            modificationCount++;
+        }
+
+        @Override
+        public Iterator&lt;T&gt; iterator() {
+            return new ListIterator();
+        }
+
+        // EXPLAIN: the non-static inner iterator can access this list&#39;s head.
+        private class ListIterator implements Iterator&lt;T&gt; {
+            private Node&lt;T&gt; current = head;
+            private final int expectedModificationCount = modificationCount;
+
+            @Override
+            public boolean hasNext() {
+                checkModification();
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                checkModification();
+                if (current == null) throw new NoSuchElementException(&quot;Iterator exhausted&quot;);
+                T value = current.value;
+                current = current.next;
+                return value;
+            }
+
+            private void checkModification() {
+                if (expectedModificationCount != modificationCount) {
+                    throw new ConcurrentModificationException(&quot;List changed during iteration&quot;);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList&lt;String&gt; words = new LinkedList&lt;&gt;();
+        words.add(&quot;First&quot;);
+        words.add(&quot;Second&quot;);
+        for (String word : words) System.out.println(word);
+        Iterator&lt;String&gt; iterator = words.iterator();
+        while (iterator.hasNext()) iterator.next();
+        try {
+            iterator.next();
+        } catch (NoSuchElementException exception) {
+            System.out.println(&quot;Exhausted iterator correctly rejects next().&quot;);
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: CoinChange</summary><div><p><b>Objective:</b> Return a minimum set of US coins.</p><p><a href='../9/CoinChange.java'>Java source</a> Â· <a href='evidence/09-05-CoinChange.txt'>Execution transcript</a></p>
+<img src='evidence/09-05-CoinChange.png' alt='Recorded output of CoinChange' loading='lazy'>
+<p><b>Conclusion:</b> Greedy change is checked against an independent minimum-coin calculation for amounts 0-200.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.List;
+
+/** Lab 9, Exercise 5: calculate minimum change for US coin denominations. */
+public class CoinChange {
+    enum Coin {
+        PENNY(1), NICKEL(5), DIME(10), QUARTER(25);
+
+        private final int cents;
+        Coin(int cents) { this.cents = cents; }
+        public int getCents() { return cents; }
+    }
+
+    static List&lt;Coin&gt; fewestCoins(int amount) {
+        if (amount &lt; 0) throw new IllegalArgumentException(&quot;Amount cannot be negative&quot;);
+        List&lt;Coin&gt; result = new ArrayList&lt;&gt;();
+        Coin[] descending = {Coin.QUARTER, Coin.DIME, Coin.NICKEL, Coin.PENNY};
+        // Greedy selection is optimal for these denominations; not for every coin system.
+        for (Coin coin : descending) {
+            while (amount &gt;= coin.getCents()) {
+                result.add(coin);
+                amount -= coin.getCents();
+            }
+        }
+        return List.copyOf(result);
+    }
+
+    public static void main(String[] args) {
+        for (int amount : new int[]{0, 30, 41, 99}) {
+            List&lt;Coin&gt; coins = fewestCoins(amount);
+            System.out.println(amount + &quot; cents: &quot; + coins + &quot; (&quot; + coins.size() + &quot; coins)&quot;);
+        }
+    }
+}
+</pre></details></div></details>
+<h2 id='lab10'>Lab 10</h2>
+<details open><summary>Exercise 1: FileLines</summary><div><p><b>Objective:</b> Save five user-entered lines and read them back.</p><p><a href='../10/FileLines.java'>Java source</a> Â· <a href='evidence/10-01-FileLines.txt'>Execution transcript</a></p>
+<img src='evidence/10-01-FileLines.png' alt='Recorded output of FileLines' loading='lazy'>
+<p><b>Conclusion:</b> All five lines are round-tripped to UTF-8 text without creating a partial file on short input.</p><details><summary>Source code</summary><pre>import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/** Lab 10, Exercise 1: save five user-entered lines, then read them back. */
+public class FileLines {
+    public static void main(String[] args) {
+        Path file = Path.of(args.length &gt; 0 ? args[0] : &quot;exercise1.txt&quot;);
+        try (Scanner scanner = new Scanner(System.in)) {
+            List&lt;String&gt; lines = new ArrayList&lt;&gt;();
+            for (int number = 1; number &lt;= 5; number++) {
+                System.out.print(&quot;Line &quot; + number + &quot;: &quot;);
+                if (!scanner.hasNextLine()) {
+                    System.out.println(&quot;Input ended; five lines are required. No file written.&quot;);
+                    return;
+                }
+                lines.add(scanner.nextLine());
+            }
+            Files.write(file, lines, StandardCharsets.UTF_8);
+            System.out.println(&quot;Read back from &quot; + file + &quot;:&quot;);
+            try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
+                String line;
+                while ((line = reader.readLine()) != null) System.out.println(line);
+            }
+        } catch (IOException exception) {
+            System.err.println(&quot;File operation failed: &quot; + exception.getMessage());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: RemoveEvenNumbers</summary><div><p><b>Objective:</b> Use an explicit Predicate with removeIf.</p><p><a href='../10/RemoveEvenNumbers.java'>Java source</a> Â· <a href='evidence/10-02-RemoveEvenNumbers.txt'>Execution transcript</a></p>
+<img src='evidence/10-02-RemoveEvenNumbers.png' alt='Recorded output of RemoveEvenNumbers' loading='lazy'>
+<p><b>Conclusion:</b> The predicate removes even numbers including zero and negative evens.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+/** Lab 10, Exercise 2: supply a Predicate to removeIf. */
+public class RemoveEvenNumbers {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;(List.of(-2, -1, 0, 1, 2, 3, 4, 5, 6));
+        Predicate&lt;Integer&gt; isEven = number -&gt; number % 2 == 0;
+        System.out.println(&quot;Before: &quot; + numbers);
+        numbers.removeIf(isEven);
+        System.out.println(&quot;Odd numbers: &quot; + numbers);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 3: FileStatistics</summary><div><p><b>Objective:</b> Count lines, words and Unicode characters in a text file.</p><p><a href='../10/FileStatistics.java'>Java source</a> Â· <a href='evidence/10-03-FileStatistics.txt'>Execution transcript</a></p>
+<img src='evidence/10-03-FileStatistics.png' alt='Recorded output of FileStatistics' loading='lazy'>
+<p><b>Conclusion:</b> The report states whether line-ending characters are included in the count.</p><details><summary>Source code</summary><pre>import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+/** Lab 10, Exercise 3: count lines, whitespace-separated words and Unicode characters. */
+public class FileStatistics {
+    public static void main(String[] args) {
+        Path file = Path.of(args.length &gt; 0 ? args[0] : &quot;sample.txt&quot;);
+        try {
+            String text = Files.readString(file, StandardCharsets.UTF_8);
+            long lines = text.lines().count();
+            long words = text.isBlank() ? 0 : text.strip().split(&quot;\\s+&quot;).length;
+            // Count Unicode code points; CR and LF each count as characters.
+            long characters = text.codePoints().count();
+            System.out.println(&quot;File: &quot; + file);
+            System.out.println(&quot;Lines: &quot; + lines);
+            System.out.println(&quot;Words: &quot; + words);
+            System.out.println(&quot;Characters (including line endings): &quot; + characters);
+        } catch (IOException exception) {
+            System.err.println(&quot;Cannot read file: &quot; + exception.getMessage());
+        }
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 4: AboveAverageStudents</summary><div><p><b>Objective:</b> Use streams to select names above average alphabetically.</p><p><a href='../10/AboveAverageStudents.java'>Java source</a> Â· <a href='evidence/10-04-AboveAverageStudents.txt'>Execution transcript</a></p>
+<img src='evidence/10-04-AboveAverageStudents.png' alt='Recorded output of AboveAverageStudents' loading='lazy'>
+<p><b>Conclusion:</b> Average, filtering, mapping and sorting are separate stream operations.</p><details><summary>Source code</summary><pre>import java.util.List;
+
+/** Lab 10, Exercise 4: filter above-average students and sort their names. */
+public class AboveAverageStudents {
+    record Student(String name, double marks) {
+        Student {
+            if (name == null || name.isBlank() || !Double.isFinite(marks) || marks &lt; 0 || marks &gt; 100) {
+                throw new IllegalArgumentException(&quot;Name and marks from 0 to 100 are required&quot;);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        List&lt;Student&gt; students = List.of(new Student(&quot;Zoe&quot;, 90), new Student(&quot;Ada&quot;, 85),
+                new Student(&quot;Ben&quot;, 60), new Student(&quot;Rudo&quot;, 65));
+        double average = students.stream().mapToDouble(Student::marks).average().orElse(0);
+        System.out.printf(&quot;Class average: %.2f%n&quot;, average);
+        students.stream()
+                .filter(student -&gt; student.marks() &gt; average)
+                .map(Student::name)
+                .sorted()
+                .forEach(System.out::println);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 5: LearnerReports</summary><div><p><b>Objective:</b> Load CSV, group learners by grade band and save three reports.</p><p><a href='../10/LearnerReports.java'>Java source</a> Â· <a href='evidence/10-05-LearnerReports.txt'>Execution transcript</a></p>
+<img src='evidence/10-05-LearnerReports.png' alt='Recorded output of LearnerReports' loading='lazy'>
+<p><b>Conclusion:</b> Collectors.groupingBy produces groups, and one report is written for each A/B/C band.</p><details><summary>Source code</summary><pre>import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+/** Lab 10, Exercise 5: load name,roll,gpa CSV and write reports grouped by grade band. */
+public class LearnerReports {
+    record Learner(String name, int roll, double gpa) {
+        Learner {
+            if (name == null || name.isBlank() || roll &lt;= 0 || !Double.isFinite(gpa) || gpa &lt; 0 || gpa &gt; 4) {
+                throw new IllegalArgumentException(&quot;Expected name, positive roll and GPA from 0 to 4&quot;);
+            }
+        }
+
+        String gradeBand() {
+            // Assumption, since the exercise gives no cutoffs: A &gt;= 3.5, B &gt;= 3.0, C below 3.0.
+            return gpa &gt;= 3.5 ? &quot;A&quot; : gpa &gt;= 3.0 ? &quot;B&quot; : &quot;C&quot;;
+        }
+    }
+
+    static List&lt;Learner&gt; loadLearners(Path file) throws IOException {
+        List&lt;Learner&gt; learners = new ArrayList&lt;&gt;();
+        List&lt;String&gt; lines = Files.readAllLines(file, StandardCharsets.UTF_8);
+        for (int index = 0; index &lt; lines.size(); index++) {
+            String line = lines.get(index).strip();
+            if (line.isEmpty() || index == 0 &amp;&amp; line.equalsIgnoreCase(&quot;name,roll,gpa&quot;)) continue;
+            // The manual uses simple unquoted CSV; commas inside names are not supported here.
+            String[] parts = line.split(&quot;,&quot;, -1);
+            try {
+                if (parts.length != 3) throw new IllegalArgumentException(&quot;Expected three columns&quot;);
+                learners.add(new Learner(parts[0].strip(), Integer.parseInt(parts[1].strip()),
+                        Double.parseDouble(parts[2].strip())));
+            } catch (IllegalArgumentException exception) {
+                throw new IOException(&quot;Invalid CSV row &quot; + (index + 1) + &quot;: &quot; + exception.getMessage(), exception);
+            }
+        }
+        return learners;
+    }
+
+    public static void main(String[] args) {
+        Path csv = Path.of(args.length &gt; 0 ? args[0] : &quot;learners.csv&quot;);
+        Path outputDirectory = Path.of(args.length &gt; 1 ? args[1] : &quot;.&quot;);
+        try {
+            Map&lt;String, List&lt;Learner&gt;&gt; groups = loadLearners(csv).stream()
+                    .collect(Collectors.groupingBy(Learner::gradeBand, TreeMap::new, Collectors.toList()));
+            Files.createDirectories(outputDirectory);
+            for (String band : List.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)) {
+                List&lt;String&gt; report = new ArrayList&lt;&gt;();
+                report.add(&quot;Grade band &quot; + band);
+                report.add(&quot;name,roll,gpa&quot;);
+                List&lt;Learner&gt; learners = groups.getOrDefault(band, List.of());
+                learners.stream().sorted(java.util.Comparator.comparing(Learner::name))
+                        .map(learner -&gt; learner.name() + &quot;,&quot; + learner.roll() + &quot;,&quot; + learner.gpa())
+                        .forEach(report::add);
+                Files.write(outputDirectory.resolve(&quot;report-&quot; + band + &quot;.txt&quot;), report, StandardCharsets.UTF_8);
+                System.out.println(&quot;Band &quot; + band + &quot;: &quot; + learners.size() + &quot; learners&quot;);
+            }
+        } catch (IOException exception) {
+            System.err.println(&quot;Report generation failed: &quot; + exception.getMessage());
+        }
+    }
+}
+</pre></details></div></details>
+<h2 id='lab11'>Lab 11</h2>
+<details open><summary>Exercise 1: SingletonFactoryDemo</summary><div><p><b>Objective:</b> Demonstrate Singleton and Factory patterns.</p><p><a href='../11/SingletonFactoryDemo.java'>Java source</a> Â· <a href='evidence/11-01-SingletonFactoryDemo.txt'>Execution transcript</a></p>
+<img src='evidence/11-01-SingletonFactoryDemo.png' alt='Recorded output of SingletonFactoryDemo' loading='lazy'>
+<p><b>Conclusion:</b> A private constructor controls shared configuration and a factory hides concrete notification creation.</p><details><summary>Source code</summary><pre>import java.util.Locale;
+
+/** Lab 11, Program 11.1: one configuration instance and interface-based creation. */
+public class SingletonFactoryDemo {
+    static final class AppConfig {
+        private static final AppConfig INSTANCE = new AppConfig();
+        private final String institution = &quot;Example University&quot;;
+        private AppConfig() { }
+        public static AppConfig getInstance() { return INSTANCE; }
+        public String getInstitution() { return institution; }
+    }
+    interface Notification { void send(String message); }
+    static class EmailNotification implements Notification {
+        @Override public void send(String message) { System.out.println(&quot;Email: &quot; + message); }
+    }
+    static class SmsNotification implements Notification {
+        @Override public void send(String message) { System.out.println(&quot;SMS: &quot; + message); }
+    }
+    static class NotificationFactory {
+        static Notification create(String type) {
+            return switch (type.toLowerCase(Locale.ROOT)) {
+                case &quot;email&quot; -&gt; new EmailNotification();
+                case &quot;sms&quot; -&gt; new SmsNotification();
+                default -&gt; throw new IllegalArgumentException(&quot;Unknown type: &quot; + type);
+            };
+        }
+    }
+    public static void main(String[] args) {
+        AppConfig a = AppConfig.getInstance(), b = AppConfig.getInstance();
+        System.out.println(&quot;Same instance? &quot; + (a == b) + &quot; -&gt; &quot; + a.getInstitution());
+        NotificationFactory.create(&quot;email&quot;).send(&quot;Lab 11 is open&quot;);
+        NotificationFactory.create(&quot;SMS&quot;).send(&quot;Lab 11 is open&quot;);
+    }
+}
+</pre></details></div></details>
+<details open><summary>Exercise 2: StrategyObserverDemo</summary><div><p><b>Objective:</b> Demonstrate Strategy and Observer patterns.</p><p><a href='../11/StrategyObserverDemo.java'>Java source</a> Â· <a href='evidence/11-02-StrategyObserverDemo.txt'>Execution transcript</a></p>
+<img src='evidence/11-02-StrategyObserverDemo.png' alt='Recorded output of StrategyObserverDemo' loading='lazy'>
+<p><b>Conclusion:</b> A strategy changes checkout behaviour and observers receive grade events.</p><details><summary>Source code</summary><pre>import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/** Lab 11, Program 11.2: interchangeable algorithms and subscribed listeners. */
+public class StrategyObserverDemo {
+    interface DiscountStrategy { double apply(double price); }
+    static class Checkout {
+        private DiscountStrategy strategy;
+        Checkout(DiscountStrategy strategy) { setStrategy(strategy); }
+        void setStrategy(DiscountStrategy strategy) { this.strategy = Objects.requireNonNull(strategy); }
+        double total(double price) { return strategy.apply(price); }
+    }
+    interface GradeListener { void onGradePublished(String course, int mark); }
+    static class GradeBook {
+        private final List&lt;GradeListener&gt; listeners = new ArrayList&lt;&gt;();
+        void subscribe(GradeListener listener) { listeners.add(Objects.requireNonNull(listener)); }
+        void publish(String course, int mark) {
+            for (GradeListener listener : listeners) listener.onGradePublished(course, mark);
+        }
+    }
+    public static void main(String[] args) {
+        Checkout checkout = new Checkout(price -&gt; price);
+        System.out.println(&quot;Regular: &quot; + checkout.total(200));
+        checkout.setStrategy(price -&gt; price * 0.90);
+        System.out.println(&quot;Student: &quot; + checkout.total(200));
+        GradeBook book = new GradeBook();
+        book.subscribe((course, mark) -&gt; System.out.println(&quot;Student portal: &quot; + course + &quot; = &quot; + mark));
+        book.subscribe((course, mark) -&gt; { if (mark &lt; 50) System.out.println(&quot;Advisor alert: &quot; + course + &quot; failed&quot;); });
+        book.publish(&quot;OOP&quot;, 72); book.publish(&quot;Databases&quot;, 45);
+    }
+}
+</pre></details></div></details>
+<p>The complete mini-project design, requirements mapping and assumptions are in <a href="../11/PROJECT_REPORT.md">PROJECT_REPORT.md</a>. The <a href="../11/CLASS_DIAGRAM.md">class diagram</a> documents relationships.</p><h2>Additional validation evidence</h2>
+<details><summary>07-01-DivisionByZero</summary><div><a href='evidence/07-01-DivisionByZero.txt'>Transcript</a><pre>Enter two integers: Cannot divide by zero.
+</pre></div></details>
+<details><summary>07-01-NonNumericInput</summary><div><a href='evidence/07-01-NonNumericInput.txt'>Transcript</a><pre>Enter two integers: Input must contain two valid integers.
+</pre></div></details>
+<details><summary>10-01-ShortInput</summary><div><a href='evidence/10-01-ShortInput.txt'>Transcript</a><pre>Line 1: Line 2: Input ended; five lines are required. No file written.
+</pre></div></details>
+<details><summary>10-03-MissingFile</summary><div><a href='evidence/10-03-MissingFile.txt'>Transcript</a><pre>Cannot read file: C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\missing.txt
+</pre></div></details>
+<details><summary>10-05-MissingCsv</summary><div><a href='evidence/10-05-MissingCsv.txt'>Transcript</a><pre>Report generation failed: C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\missing.csv
+</pre></div></details>
+<details><summary>ExerciseBoundaryChecks</summary><div><a href='evidence/ExerciseBoundaryChecks.txt'>Transcript</a><pre>PASS: Exactly 25 years is not antique
+PASS: 26 years is antique
+PASS: Rectangle area and perimeter
+PASS: Default circle radius is one
+PASS: Negative circle radius rejected
+PASS: Constructor chaining counts each circle once
+PASS: Negative marks rejected
+PASS: Marks above 100 rejected
+PASS: Invalid marks do not change student state
+PASS: Grade boundary 49
+PASS: Grade boundary 50
+PASS: Grade boundary 59
+PASS: Grade boundary 60
+PASS: Grade boundary 74
+PASS: Grade boundary 75
+PASS: Grade boundary 100
+PASS: History is a detached snapshot
+PASS: History is unmodifiable
+PASS: Overdraw leaves bank balance unchanged
+PASS: ImmutablePerson class is final
+PASS: ImmutablePerson fields are private and final
+PASS: ImmutablePerson has no setters
+PASS: Kelvin storage preserves Fahrenheit conversion
+PASS: Below absolute zero rejected
+PASS: Age endpoints 0 and 120 are valid
+PASS: Age 121 rejected with checked exception
+PASS: Insufficient funds throws checked exception
+PASS: Failed checked withdrawal preserves balance
+PASS: Generic stack follows LIFO
+PASS: Empty generic stack rejects peek
+PASS: Word frequency handles case and punctuation
+PASS: Generic sort handles negatives and duplicates
+PASS: Generic sort accepts empty array
+PASS: Empty linked-list iterator rejects next
+PASS: Linked-list iterator detects structural modification
+PASS: Coin change is minimal and totals correctly for every amount 0-200
+PASS: Negative coin amount rejected
+ALL 37 EXERCISE CHECKS PASSED
+</pre></div></details>
+<details><summary>LibraryChecks</summary><div><a href='evidence/LibraryChecks.txt'>Transcript</a><pre>PASS: Books and DVDs use different loan periods
+PASS: Blank item id rejected
+PASS: Invalid DVD duration rejected
+PASS: Duplicate item id rejected
+PASS: Duplicate member id rejected
+PASS: Unknown member rejected
+PASS: Unknown item rejected
+PASS: Borrow updates item and member
+PASS: Book due date is 14 days later
+PASS: Unavailable item rejected
+PASS: Fourth loan rejected
+PASS: Failed borrow leaves state unchanged
+PASS: Return releases item and member slot
+PASS: Returning an available item rejected
+PASS: Due today is not overdue
+PASS: Past-due loan found
+PASS: Stream search ignores case
+PASS: Item snapshot cannot be modified
+PASS: Member loans cannot be externally modified
+PASS: Items, members and active loans restored
+PASS: CSV quotes, commas and UTF-8 preserved
+PASS: Original due date preserved after reload
+PASS: Returned loan stays returned after reload
+PASS: CSV codec round trip
+PASS: Orphaned persisted loan rejected
+PASS: Load failure does not overwrite saved data
+ALL 26 LIBRARY CHECKS PASSED
+</pre></div></details>
+<details><summary>LibraryMenuFirstRun</summary><div><a href='evidence/LibraryMenuFirstRun.txt'>Transcript</a><pre>Loaded 0 items, 0 members, 0 active loans.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Type (BOOK/DVD): Item id: Title: Author: Added BOOK B1: Java, Objects [Ada] - available
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Type (BOOK/DVD): Item id: Title: Duration in minutes: Added DVD D1: Java on Film [90] - available
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Name: Registered M1: Rudo (0/3 loans)
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Item id: Borrowed: B1 [Java, Objects] -&gt; Rudo, borrowed 2026-10-14, due 2026-10-28
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Item id: Operation rejected: Item B1 is already on loan
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Title search: DVD D1: Java on Film [90] - available
+BOOK B1: Java, Objects [Ada] - due 2026-10-28
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+No matching records.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Library saved.
+</pre></div></details>
+<details><summary>LibraryMenuReload</summary><div><a href='evidence/LibraryMenuReload.txt'>Transcript</a><pre>Loaded 2 items, 1 members, 1 active loans.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+BOOK B1: Java, Objects [Ada] - due 2026-10-28
+DVD D1: Java on Film [90] - available
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Item id: Item returned.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Library saved.
+</pre></div></details>
+<details><summary>LibraryMenuReturnPersisted</summary><div><a href='evidence/LibraryMenuReturnPersisted.txt'>Transcript</a><pre>Loaded 2 items, 1 members, 0 active loans.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Library saved.
+</pre></div></details>
+<p><b>Assumptions:</b> Lab 3 grades use A â‰¥75, B â‰¥60, C â‰¥50, otherwise F. Lab 10 GPA bands use A â‰¥3.5, B â‰¥3.0, otherwise C. Library books loan for 14 days and DVDs for 7 days. Due today is not overdue. These cutoffs and loan periods are choices where the manual leaves values unspecified.</p><p><b>Conclusion:</b> The assignment demonstrates encapsulation, inheritance, polymorphism and abstraction, then combines them with generics, collections, exceptions, file I/O, streams and persistent library workflows.</p></main></body></html>

@@ -1,0 +1,4 @@
+java ValidatedStudent 
+Rudo: 82
+Rejected: Marks must be between 0 and 100
+Marks after rejection: 82

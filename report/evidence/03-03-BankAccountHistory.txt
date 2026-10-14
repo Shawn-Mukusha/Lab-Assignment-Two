@@ -1,0 +1,7 @@
+java BankAccountHistory 
+Withdraw 100: true
+Withdraw 5000: false
+History modification blocked.
+Snapshot entries: 3
+Current history: [Opening balance: 500.00, Deposit: 250.00, Withdrawal: 100.00, Deposit: 50.00]
+ACC-001 [Tendai] balance: 700.00

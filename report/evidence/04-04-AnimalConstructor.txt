@@ -1,0 +1,4 @@
+java AnimalConstructor 
+Bingo
+An empty Dog constructor implies super(), but Animal has only Animal(String).
+Fix: call super(name) as the first constructor statement.

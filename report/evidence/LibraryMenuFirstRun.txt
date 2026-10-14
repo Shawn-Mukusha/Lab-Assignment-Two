@@ -1,0 +1,52 @@
+java LibraryApp C:\Users\HP15\Desktop\Lab\.build\run-4da275a6a11546378a64a3d0ddb2783f\library-menu
+[standard input]
+1
+BOOK
+B1
+Java, Objects
+Ada
+1
+DVD
+D1
+Java on Film
+90
+2
+M1
+Rudo
+3
+M1
+B1
+3
+M1
+B1
+6
+JAVA
+5
+0
+[program output]
+Loaded 0 items, 0 members, 0 active loans.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Type (BOOK/DVD): Item id: Title: Author: Added BOOK B1: Java, Objects [Ada] - available
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Type (BOOK/DVD): Item id: Title: Duration in minutes: Added DVD D1: Java on Film [90] - available
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Name: Registered M1: Rudo (0/3 loans)
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Item id: Borrowed: B1 [Java, Objects] -> Rudo, borrowed 2026-10-14, due 2026-10-28
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Member id: Item id: Operation rejected: Item B1 is already on loan
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Title search: DVD D1: Java on Film [90] - available
+BOOK B1: Java, Objects [Ada] - due 2026-10-28
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+No matching records.
+
+1 Add item | 2 Register member | 3 Borrow | 4 Return | 5 Overdue | 6 Search | 7 List items | 0 Save and exit
+Library saved.

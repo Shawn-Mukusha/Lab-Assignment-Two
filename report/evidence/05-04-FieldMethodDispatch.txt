@@ -1,0 +1,5 @@
+java FieldMethodDispatch 
+Field through Parent: parent
+Method through Parent: child
+Fields follow the declared reference type (Parent).
+Overridden methods follow the runtime object type (Child).

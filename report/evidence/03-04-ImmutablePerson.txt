@@ -1,0 +1,4 @@
+java ImmutablePerson 
+Farai (21)
+Final class, private final fields and no setters prevent mutation.
+Getters return an immutable String and an int value.

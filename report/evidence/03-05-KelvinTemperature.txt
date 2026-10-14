@@ -1,0 +1,4 @@
+java KelvinTemperature 
+25.00 C = 77.00 F
+Rejected: Temperature cannot be below absolute zero or non-finite
+Callers use the same factories and getters as Lab 2 despite kelvin storage.

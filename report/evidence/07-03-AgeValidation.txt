@@ -1,0 +1,6 @@
+java AgeValidation 
+Invalid age: -1; expected 0 to 120
+0 is valid
+20 is valid
+120 is valid
+Invalid age: 121; expected 0 to 120

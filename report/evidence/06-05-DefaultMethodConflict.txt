@@ -1,0 +1,6 @@
+java DefaultMethodConflict 
+First greeting
+Second greeting
+Both resolves the conflict
+Unrelated interfaces provide the same default signature, so the class must override it.
+InterfaceName.super.hello() explicitly selects a default implementation.

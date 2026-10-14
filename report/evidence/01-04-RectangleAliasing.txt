@@ -1,0 +1,5 @@
+java RectangleAliasing 
+Prediction: r1.width will be 9.0.
+r1.width = 9.0
+Same object? true
+Changing the object through r2 is visible through r1.

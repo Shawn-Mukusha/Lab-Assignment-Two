@@ -1,0 +1,4 @@
+java LevelAdvice 
+LOW: Proceed normally
+MEDIUM: Be careful
+HIGH: Take immediate action
