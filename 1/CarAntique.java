@@ -2,7 +2,7 @@ import java.time.Year;
 
 /** Lab 1, Exercise 2: determine whether a car is more than 25 years old. */
 public class CarAntique {
-    static class Car {
+    static class Car { 
         String brand;
         int year;
         double mileage;

@@ -1,23 +1,41 @@
-# Object-Oriented Programming in Java
+# Lab Assignment Two: Object-Oriented Programming in Java
 
-Solutions to the University Lab Manual: **50 exercises across Labs 1-10**, including all Basic, Intermediate and Challenge tasks, plus **Lab 11's design pattern demonstrations and Library Management System mini-project**.
+This repository contains Java implementations of the laboratory exercises on object-oriented programming. Labs 1-10 contain **50 exercises**, covering Basic, Intermediate and Challenge tasks. Lab 11 contains demonstrations of four design patterns and a **Library Management System** mini-project that brings the main concepts together.
 
-Each exercise is in its matching numbered folder. Java filenames describe the task, public class names match their filenames, and source comments retain the original lab and exercise numbers.
+The submission includes source code, sample input files, written reports, recorded program output and a repeatable verification script. Each exercise is stored in its numbered lab folder, and source comments identify its lab and exercise number.
 
-## Start here
+## Learning objectives
 
-- [Exercise index](#exercise-index): find the correct program for each task.
-- [Running the exercises](#running-the-exercises): compile, run and supply input.
-- [Library mini-project](#lab-11-library-management-system): run the menu application.
-- [Lab report](report/LAB_REPORT.html): objectives, source code, recorded output and conclusions.
-- [Lab record](report/LAB_RECORD.md): lab summaries and verification evidence.
-- [Viva preparation](report/VIVA.md): answers to the manual's oral questions.
+The assignment develops the ability to model objects, manage their state and relationships, and apply Java features in small programs and an integrated application.
+
+| Concept | Application in this assignment |
+|---|---|
+| Encapsulation | Private fields, validated updates, immutable objects and protected collection views. |
+| Inheritance | Shared behaviour in class hierarchies, constructor chaining and specialised subclasses. |
+| Polymorphism | Overloading, overriding and method dispatch through superclass or interface references. |
+| Abstraction | Abstract classes and interfaces that define common contracts for different implementations. |
+| Supporting Java features | Exceptions, generics, collections, nested types, enums, records, file I/O, lambdas and streams. |
+| Application design | Singleton, Factory, Strategy and Observer examples; a library application with CSV persistence. |
+
+## Guide for review
+
+| Resource | Purpose |
+|---|---|
+| [Exercise index](#exercise-index) | Maps all 50 exercises to their source files and tasks. |
+| [Running the exercises](#running-the-exercises) | Explains compilation, execution and input requirements. |
+| [Lab report](report/LAB_REPORT.html) | Presents objectives, source code, recorded outputs and conclusions. Open the HTML file in a web browser. |
+| [Lab record](report/LAB_RECORD.md) | Summarises learning outcomes and prediction exercises, with links to evidence. |
+| [Library mini-project](#lab-11-library-management-system) | Describes the integrated application and how to run it. |
+| [Verification](#verification) | Explains the checks and distinguishes recorded results from a fresh run. |
+| [Viva preparation](report/VIVA.md) | Provides notes for the lab manual's oral questions. |
 
 ## Requirements
 
-- JDK **17 or later**, with both `java` and `javac` available on `PATH`.
-- A terminal and any Java editor or IDE. The commands below use Windows PowerShell.
-- No external Java libraries, Maven or Gradle are required.
+- **Java Development Kit (JDK) 17 or later**, with `java` and `javac` available on `PATH`. A JDK is required for compilation; a Java runtime alone is insufficient.
+- **Windows PowerShell** for the commands and verification script shown below.
+- Any text editor or Java IDE for viewing and editing the source.
+
+The Java programs use the standard library and require no external dependencies, Maven or Gradle. Java 17 supports the records and pattern matching used in the exercises.
 
 Check the installed tools:
 
@@ -44,21 +62,30 @@ javac -version
 | [report](report/) | Lab report, lab record, viva notes and execution evidence |
 | [verification](verification/) | Repeatable verification script and Java check programs |
 
-The verification script creates `.build/` for compiled classes and temporary test data. This directory is excluded from the submission archive.
+The verification script stores compiled classes and temporary test data in `.build/`. Generated `.class` files, `.build/` and the library's default `11/data/` directory are excluded from Git by [.gitignore](.gitignore).
 
 ## Running the exercises
 
 ### Compile and run one exercise
 
-Starting from the workspace root, run Lab 1 Exercise 1:
+Open PowerShell in the project root, then compile and run Lab 1 Exercise 1:
 
 ```powershell
 cd 1
 javac --release 17 -encoding UTF-8 CarBasics.java
 java CarBasics
+cd ..
 ```
 
-Use the filename with `.java` when compiling and the public class name without the extension when running. Substitute the program from the exercise index for another task. Each Lab 1-10 program contains its own helper types and runs independently.
+Expected output:
+
+```text
+Toyota (2020), 42000.0 km
+Honda (2018), 61000.0 km
+Mazda (2022), 18000.0 km
+```
+
+Use the `.java` filename when compiling and the public class name without the extension when running. Replace the folder and filename with another entry from the [exercise index](#exercise-index). Each Lab 1-10 exercise runs independently and contains its own helper types.
 
 You can also run an individual source file directly from the workspace root:
 
@@ -75,14 +102,14 @@ $sources = (Get-ChildItem -Filter *.java).FullName
 javac --release 17 -encoding UTF-8 $sources
 ```
 
-Then run the desired class, for example `java PersonAddress` in Lab 1. Compiling creates `.class` files; the `.java` files are the source files for submission.
+Then run the desired class, for example `java PersonAddress` in Lab 1. Use `cd ..` to return to the project root before switching labs. Compilation creates `.class` files alongside the source; these files are generated output.
 
 ### Input and file exercises
 
 | Program | Input and behaviour |
 |---|---|
 | [SafeDivision](7/SafeDivision.java) | Enter two integers, such as `8 2`. Try `8 0` for division by zero and `hello 2` for invalid input. |
-| [WordFrequency](8/WordFrequency.java) | Enter a paragraph on one line. Words are counted without case sensitivity and ranked by frequency. |
+| [WordFrequency](8/WordFrequency.java) | Enter a paragraph on one line. Words are counted without case sensitivity and ranked by frequency, with alphabetical ordering for ties. |
 | [FileLines](10/FileLines.java) | Enter five lines. They are saved and read back; fewer than five lines do not create a partial file. |
 | [FileStatistics](10/FileStatistics.java) | Reads [sample.txt](10/sample.txt) by default when run from Lab 10, or accepts a file path as its first argument. |
 | [LearnerReports](10/LearnerReports.java) | Reads [learners.csv](10/learners.csv) by default when run from Lab 10, or accepts a CSV path and an optional report directory. |
@@ -95,7 +122,7 @@ java FileStatistics sample.txt
 java LearnerReports learners.csv grade-reports
 ```
 
-The last command writes `report-A.txt`, `report-B.txt` and `report-C.txt` into `grade-reports`. The learner CSV uses the header `name,roll,gpa`. Relative file paths are resolved from the terminal's current directory.
+The last command writes `report-A.txt`, `report-B.txt` and `report-C.txt` into `grade-reports`. The learner CSV uses the columns `name,roll,gpa`; this exercise accepts simple, unquoted CSV and does not support commas inside names. Relative file paths are resolved from the terminal's current directory.
 
 ## Exercise index
 
@@ -203,7 +230,9 @@ Exercises 1-2 are **Basic**, exercises 3-4 are **Intermediate**, and exercise 5 
 
 ## Lab 11: Library Management System
 
-The [mini-project](11/) combines validated classes, inheritance, abstraction, Borrowable, custom exceptions, ID-keyed maps, streams and CSV persistence.
+The [mini-project](11/) is a command-line application for managing library items, members and active loans. It combines encapsulation, inheritance, abstraction and polymorphism with custom exceptions, maps, streams and CSV persistence.
+
+### Compile and run
 
 Starting from the workspace root:
 
@@ -214,7 +243,20 @@ javac --release 17 -encoding UTF-8 $sources
 java LibraryApp
 ```
 
-The menu supports adding books/DVDs, registering members, borrowing, returning, listing overdue loans, searching by title and listing items. Choose `0` to save and exit. Completed operations are also saved when input ends.
+| Option | Operation |
+|---|---|
+| `1` | Add a book or DVD. |
+| `2` | Register a member. |
+| `3` | Borrow an item using a member ID and item ID. |
+| `4` | Return an item using its item ID. |
+| `5` | List overdue loans. |
+| `6` | Search items by title. |
+| `7` | List all items. |
+| `0` | Save and exit. |
+
+To try the application, add an item, register a member, borrow the item and choose `0`. Restart with the same data directory to inspect the saved state or return the item. Completed operations are also saved when input ends.
+
+### Storage and borrowing rules
 
 By default, the application loads and saves `items.csv`, `members.csv` and `loans.csv` in `data/` relative to the current directory. To select a separate data directory:
 
@@ -222,7 +264,9 @@ By default, the application loads and saves `items.csv`, `members.csv` and `loan
 java LibraryApp my-library-data
 ```
 
-Members may hold at most three active loans. Books loan for 14 days and DVDs for 7 days. Invalid saved data is reported at startup and is not replaced with an empty library.
+Members may hold at most **three active loans** across both item types. Books have a **14-day** loan period and DVDs have a **7-day** loan period. An item is overdue only when its due date is before today. Invalid saved data is reported at startup and is not replaced with an empty library.
+
+### Design documentation and pattern examples
 
 | Resource | Purpose |
 |---|---|
@@ -232,7 +276,15 @@ Members may hold at most three active loans. Books loan for 14 days and DVDs for
 | [SingletonFactoryDemo.java](11/SingletonFactoryDemo.java) | Singleton configuration and email/SMS factory demonstration |
 | [StrategyObserverDemo.java](11/StrategyObserverDemo.java) | Runtime discount strategy and grade-listener demonstration |
 
-After compiling Lab 11, run the pattern examples with `java SingletonFactoryDemo` and `java StrategyObserverDemo`.
+After compiling Lab 11, run the separate pattern examples from that folder:
+
+```powershell
+java SingletonFactoryDemo
+java StrategyObserverDemo
+cd ..
+```
+
+The first demonstrates Singleton and Factory; the second demonstrates Strategy and Observer. They are independent examples rather than features of the library menu.
 
 ## Verification
 
@@ -242,7 +294,9 @@ From the workspace root, run the [verification script](verification/Verify.ps1):
 powershell -NoProfile -ExecutionPolicy Bypass -File .\verification\Verify.ps1
 ```
 
-The script compiles with Java 17 compatibility and compiler warnings enabled, runs every exercise and both pattern demonstrations, checks error paths and file outputs, and verifies library persistence across three separate menu sessions. It writes execution transcripts and rendered console-output images under [report/evidence](report/evidence/) and regenerates the HTML lab report. Test data is kept separately in `.build/`.
+The script compiles the Java sources with `--release 17 -Xlint:all`, runs all 50 exercises and both pattern demonstrations, and checks selected error paths, file outputs and object invariants. Library persistence is checked across three separate menu sessions: create and save, reload and return, then reload again.
+
+Running verification updates the transcripts in [report/evidence](report/evidence/) and regenerates the HTML lab report. By default, it also renders console-output images from the execution transcripts. These images are output captures, not desktop screenshots. Temporary test data is stored separately in `.build/`.
 
 To generate text-only report evidence:
 
@@ -250,7 +304,9 @@ To generate text-only report evidence:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\verification\Verify.ps1 -SkipImages
 ```
 
-The last recorded verification on **14 October 2026** passed:
+### Recorded results
+
+The checked-in [verification summary](report/evidence/verification-summary.json) records a successful run on **14 October 2026**, targeting Java 17:
 
 | Check | Result |
 |---|---|
@@ -261,11 +317,13 @@ The last recorded verification on **14 October 2026** passed:
 | Library checks | 26 passed |
 | Library menu persistence | Create/save, reload/return and reload again passed |
 
-See the [verification summary](report/evidence/verification-summary.json), [exercise checks](report/evidence/ExerciseBoundaryChecks.txt) and [library checks](report/evidence/LibraryChecks.txt) for the recorded results. Output images are rendered from actual execution transcripts; they are not desktop screenshots.
+The 62 recorded executions include the exercises, pattern demonstrations and additional checks; they are not 62 distinct exercises. The assertion totals are recorded in the [exercise checks](report/evidence/ExerciseBoundaryChecks.txt) and [library checks](report/evidence/LibraryChecks.txt).
 
-## Assumptions
+These results describe the saved run. Rerun verification to assess the current source after any changes. The checks cover selected requirements and boundaries rather than every possible input.
 
-Where the manual does not specify values, the programs use these documented choices:
+## Implementation choices and limitations
+
+The programs use the following documented rules and conventions:
 
 | Area | Choice |
 |---|---|
@@ -277,17 +335,10 @@ Where the manual does not specify values, the programs use these documented choi
 | Overdue rule | A due date before today is overdue; an item due today is not |
 | Library storage | Active loans are persisted; returned loans are removed from the active list |
 
-The library assumes one running instance. Its CSV files are replaced individually; the three-file save is not a single database transaction. Further details are in the [project report](11/PROJECT_REPORT.md).
+The library uses the computer's local calendar for loan dates and assumes one running instance. Its CSV files are replaced individually; saving all three files is not a single database transaction. It stores active loans without a historical record of returned loans. Further design details and persistence limitations are explained in the [project report](11/PROJECT_REPORT.md).
 
-## Reports and submission
+## Submission contents
 
-- [LAB_REPORT.html](report/LAB_REPORT.html): open in a web browser to read all exercise objectives, source, outputs and conclusions.
-- [LAB_RECORD.md](report/LAB_RECORD.md): lab summaries, prediction exercises and verification links.
-- [VIVA.md](report/VIVA.md): preparation for the manual's oral questions.
-- [Java_OOP_Assignment.zip](Java_OOP_Assignment.zip): packaged source, reports and verification tools.
+The source folders, sample input files, [reports](report/), [class diagram](11/CLASS_DIAGRAM.md) and [verification tools](verification/) provide the implementation and supporting evidence for review.
 
-The archive is a snapshot. If you modify files after it was created, recreate it from the workspace root before submission:
-
-```powershell
-Compress-Archive -Path 1,2,3,4,5,6,7,8,9,10,11,report,verification,README.md -DestinationPath Java_OOP_Assignment.zip -Force
-```
+If submitting a ZIP archive, package the current numbered lab folders, reports, verification tools and this README. Exclude compiled `.class` files, `.build/` and generated library data. Recreate the archive after any subsequent changes so it matches the submitted source and documentation.
